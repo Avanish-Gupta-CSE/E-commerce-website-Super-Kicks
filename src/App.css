@@ -1,0 +1,167 @@
+:root {
+    --primary: #27374d;
+    --secondary: #f5f5f5;
+    --grey: #9db2bf;
+}
+
+/* html {
+    scrollbar-gutter: stable;
+} */
+
+body {
+    scrollbar-gutter: stable both-edges;
+}
+
+.App {
+    position: relative;
+    min-height: 100vh;
+    color: var(--primary);
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.div-margin {
+    margin-left: 1rem;
+}
+
+.loading-div{
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(97, 97, 98,.5);
+    padding-top: 30%;
+}
+
+/* links */
+.heading-link, .heading-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: normal;
+    font-size: x-large;
+}
+
+.heading-link:hover,
+.text-link:hover {
+    color: rgb(0, 0, 0);
+}
+
+.text-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.basic-link {
+    color: var(--primary);
+}
+
+/* button */
+
+.button {
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 0.5rem 1rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+    font-size: larger;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.show-button {
+    font-size: x-large;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.cross-button {
+    border: none;
+    color: var(--primary);
+    background: none;
+    font-weight: bolder;
+    font-size: large;
+    cursor: pointer;
+}
+
+/* inputs */
+.input-field {
+    box-sizing: border-box;
+    margin: 1rem .5rem 0 0;
+    padding: 0.5rem;
+    width: 80%;
+}
+
+/* icon */
+.star {
+    color: gold;
+    font-size: large;
+    padding-left: 0.2rem;
+    position: relative;
+    top: 0.2rem;
+}
+
+.heart-icon {
+    border: none;
+    background: none;
+    color: rgb(242, 22, 22);
+    font-size: x-large;
+    margin-left: auto;
+    display: flex;
+}
+
+.out-of-stock{
+    color: rgb(171, 173, 175);;
+}
+
+/* font sizes */
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 786px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .button{
+        font-size: smaller;
+    }
+}

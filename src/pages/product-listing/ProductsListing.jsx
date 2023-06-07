@@ -142,7 +142,7 @@ export const ProductListing = () => {
                                     checked={categoryFilter.includes(
                                         categoryName
                                     )}
-                                    value={Number(categoryName)}
+                                    value={categoryName}
                                     onChange={(e) => setCategoryHandler(e)}
                                     type="checkbox"
                                 />

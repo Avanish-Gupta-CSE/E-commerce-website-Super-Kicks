@@ -41,5 +41,3 @@ $ npm start
 - Vanilla CSS: Implement custom CSS styles to enhance the visual appeal and layout of the website.
 
 We hope you enjoy exploring Super-Kicks and find the perfect pair of shoes to add to your collection!
-
-## **Demo -**

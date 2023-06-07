@@ -1,0 +1,57 @@
+.home {
+    text-align: center;
+    background-color: #FAEDCD;
+}
+
+.home .category-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.home .container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-bottom: 4rem;
+}
+
+.home .card {
+    list-style: none;
+    margin: 1rem;
+}
+
+.home .main-card {
+    margin: 0;
+    width: 100%;
+    height: 500px;
+    /* background-image: url("https://wallpaperaccess.com/full/680070.jpg"); */
+    background-image: url("https://www.woodlandworldwide.com/_next/image?url=https%3A%2F%2Fwoodland-dev-storage134048-dev.s3.ap-south-1.amazonaws.com%2FImages%2Fwdl_shoe_banner.png&w=1920&q=75");
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.home .main-card a {
+    color: #FAEDCD;
+    text-decoration: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: xx-large;
+    padding: 0.5rem;
+    background-color: rgb(48, 50, 51,.8);
+}
+
+.home img {
+    display: block;
+    margin: 0.5rem;
+}
+
+@media (max-width: 786px) {
+    .home .main-card{
+        background-attachment: inherit;
+    }
+}

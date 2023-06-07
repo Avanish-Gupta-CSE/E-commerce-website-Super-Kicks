@@ -1,6 +1,12 @@
 # Super-Kicks
 
-Super-Kicks is an e-commerce website dedicated to selling shoes. It provides a seamless shopping experience for shoe enthusiasts. 
+Super-Kicks is an e-commerce website dedicated to selling shoes. It provides a seamless shopping experience for shoe enthusiasts.
+
+Adding a walkthrough-video for reference:
+
+
+https://github.com/Avanish-Gupta-CSE/E-commerce-website-Super-Kicks/assets/91612116/8fad8719-b1b3-4ce6-93bb-e80a06eb0ccd
+
 
 ## How to install and run locally?
 

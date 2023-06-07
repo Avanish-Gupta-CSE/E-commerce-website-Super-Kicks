@@ -133,7 +133,7 @@ export const ProductListing = () => {
                         value={Number(priceRange)}
                         type="range"
                     />
-                    <div>Below || Equal ${priceRange ? priceRange : 200}</div>
+                    <div>Min:$0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max:${priceRange ? priceRange : 200}</div>
                     <h3>Category</h3>
                     <ul>
                         {categories.map(({ categoryName, id }) => (

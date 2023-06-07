@@ -1,0 +1,46 @@
+.product-card{
+    text-align: left;
+    width: 12rem;
+    box-shadow: 0 0 .3rem var(--grey);
+    margin: 1rem;
+    padding: 1rem 1rem;
+    background-color: white;
+}
+
+.product-card img{
+    width: 100%;
+    height: 200px;
+}
+
+.product-card .link{
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.cut-price{
+    text-decoration: line-through;
+    color: gray;
+}
+
+.product-card h3{
+    height: 2.5rem;
+    margin: 0;
+}
+
+.product-card p{
+    margin: .5rem 0;
+}
+
+
+.product-card .button{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-align: center;
+}
+
+.product-card .flex-container{
+    display: flex;
+}
+

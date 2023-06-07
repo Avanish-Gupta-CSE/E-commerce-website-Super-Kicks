@@ -6,7 +6,7 @@ Super-Kicks is an e-commerce website dedicated to selling shoes. It provides a s
 
 ```
 $ git clone https://github.com/Avanish-Gupta-CSE/E-commerce-website-Super-Kicks.git
-$ cd plantique-v1
+$ cd E-commerce-website-Super-Kicks
 $ npm install
 $ npm start
 ```

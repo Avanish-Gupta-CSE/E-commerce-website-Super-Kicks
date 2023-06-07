@@ -2,6 +2,15 @@
 
 Super-Kicks is an e-commerce website dedicated to selling shoes. It provides a seamless shopping experience for shoe enthusiasts. 
 
+## How to install and run locally?
+
+```
+$ git clone https://github.com/Avanish-Gupta-CSE/E-commerce-website-Super-Kicks.git
+$ cd plantique-v1
+$ npm install
+$ npm start
+```
+
 ## Features
 
 - Home page: Welcome to the Super-Kicks landing page, where you can explore our wide range of shoe offerings.

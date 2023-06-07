@@ -160,7 +160,7 @@ export const ProductListing = () => {
                         type="range"
                     />
                     <div>
-                    Min:0<AiFillStar className="star" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max: {ratingRange ? ratingRange : 0}{" "}
+                    Min:{ratingRange ? ratingRange : 0}{" "}<AiFillStar className="star" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max: 5{" "}
                         <AiFillStar className="star" />
                     </div>
                     <h3>Sort By</h3>

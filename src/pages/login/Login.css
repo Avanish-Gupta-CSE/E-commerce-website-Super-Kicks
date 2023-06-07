@@ -1,0 +1,28 @@
+.login{
+    padding: 0 1rem;
+    max-width: 25rem;
+    margin: 0 auto;
+    
+}
+
+.light-link{
+    text-decoration: none;
+    margin-left: 1rem;
+    color: #7b7b7b;
+    font-size: initial;
+}
+
+.login-button{
+    display: block;
+    width: 80%;
+}
+
+.test{
+    border: none;
+    border: 1px solid var(--primary);
+    border-radius: .2rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    background-color: var(--secondary);
+    padding: .2rem 1rem;
+}

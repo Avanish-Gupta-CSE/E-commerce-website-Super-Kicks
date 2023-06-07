@@ -1,0 +1,7 @@
+.wishlist{
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 5rem;
+    justify-content: flex-start;
+    
+}

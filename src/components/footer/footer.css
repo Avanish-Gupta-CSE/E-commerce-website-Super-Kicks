@@ -1,6 +1,6 @@
 .footer {
-    background-color:var(--primary);
-    color: var(--secondary);
+    /* background-color:var(--primary); color: var(--secondary); replaced by Tailwind */
+    @apply bg-slate-700 text-slate-100 dark:bg-slate-800 dark:text-slate-200;
     padding: 1rem;
     display: flex;
     flex-wrap: wrap;
@@ -18,9 +18,13 @@
 }
 
 .footer a{
-    color: var(--secondary);
+    /* color: var(--secondary); replaced by Tailwind */
+    @apply text-slate-100 dark:text-slate-200;
     text-decoration: none;
     font-size: large;
+}
+.footer a:hover{
+    @apply text-white dark:text-gray-300;
 }
 
 @media(max-width : 786px){

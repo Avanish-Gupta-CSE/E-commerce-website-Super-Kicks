@@ -1,6 +1,7 @@
 .home {
     text-align: center;
-    background-color: #FAEDCD;
+    /* background-color: #FAEDCD; replaced by Tailwind */
+    @apply bg-yellow-50 dark:bg-slate-800; /* #FAEDCD is a light yellow. Chose a generic dark bg */
 }
 
 .home .category-img {
@@ -34,7 +35,8 @@
 }
 
 .home .main-card a {
-    color: #FAEDCD;
+    /* color: #FAEDCD; background-color: rgb(48, 50, 51,.8); replaced by Tailwind */
+    @apply text-yellow-100 bg-slate-800 bg-opacity-80 dark:text-slate-200 dark:bg-slate-900 dark:bg-opacity-80;
     text-decoration: none;
     position: absolute;
     bottom: 0;
@@ -42,7 +44,6 @@
     right: 0;
     font-size: xx-large;
     padding: 0.5rem;
-    background-color: rgb(48, 50, 51,.8);
 }
 
 .home img {

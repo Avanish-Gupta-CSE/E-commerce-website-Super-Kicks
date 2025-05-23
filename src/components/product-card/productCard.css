@@ -1,10 +1,10 @@
 .product-card{
+    @apply bg-white dark:bg-slate-800 shadow-md dark:shadow-slate-700;
+    /* box-shadow color needs to be considered for dark mode, using default shadow or a specific dark shadow */
     text-align: left;
     width: 12rem;
-    box-shadow: 0 0 .3rem var(--grey);
     margin: 1rem;
     padding: 1rem 1rem;
-    background-color: white;
 }
 
 .product-card img{
@@ -13,13 +13,18 @@
 }
 
 .product-card .link{
-    color: var(--primary);
+    /* color: var(--primary); Handled by .App's text-slate-800 dark:text-slate-200 or specific component */
+    @apply text-slate-800 dark:text-slate-200; /* Ensure it has a color if not inherited */
     text-decoration: none;
 }
+.product-card .link:hover{
+    @apply text-blue-600 dark:text-blue-400; /* Example hover color */
+}
+
 
 .cut-price{
     text-decoration: line-through;
-    color: gray;
+    @apply text-gray-500 dark:text-gray-400;
 }
 
 .product-card h3{

@@ -42,7 +42,8 @@
 }
 
 .cart .product-container {
-    border: 1px solid var(--primary);
+    /* border: 1px solid var(--primary); */
+    @apply border border-slate-700 dark:border-slate-500;
 }
 
 .cart .cart-item img {
@@ -51,18 +52,19 @@
 
 .cart .price {
     text-decoration: line-through;
-    color: lightgray;
+    @apply text-gray-400 dark:text-gray-500; /* Was lightgray */
 }
 
 .cart .decrease-button {
+    @apply bg-slate-700 text-slate-100 border-slate-700 dark:bg-slate-600 dark:text-slate-100 dark:border-slate-600;
     width: 1.5rem;
     height: 1.5rem;
     font-size: large;
-    border: 1px solid var(--primary);
+    border: 1px solid; /* color is set by @apply */
     margin: 0 0.5rem;
     border-radius: 50%;
-    background-color: var(--primary);
-    color: var(--secondary);
+    /* background-color: var(--primary); */
+    /* color: var(--secondary); */
     cursor: pointer;
     display: inline-flex;
     justify-content: center;

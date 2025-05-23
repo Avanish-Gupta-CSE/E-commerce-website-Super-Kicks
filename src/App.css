@@ -1,8 +1,4 @@
-:root {
-    --primary: #27374d;
-    --secondary: #f5f5f5;
-    --grey: #9db2bf;
-}
+/* No :root variables needed with Tailwind */
 
 /* html {
     scrollbar-gutter: stable;
@@ -13,9 +9,9 @@ body {
 }
 
 .App {
+    @apply text-slate-800 dark:text-slate-200;
     position: relative;
     min-height: 100vh;
-    color: var(--primary);
     font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -29,6 +25,7 @@ ul {
 }
 
 .loading-div{
+    @apply bg-gray-500 bg-opacity-50 dark:bg-gray-800 dark:bg-opacity-50;
     width: 100vw;
     height: 100vh;
     z-index: 1;
@@ -36,13 +33,12 @@ ul {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(97, 97, 98,.5);
     padding-top: 30%;
 }
 
 /* links */
-.heading-link, .heading-link {
-    color: var(--primary);
+.heading-link { /* Combined .heading-link, .heading-link */
+    @apply text-slate-800 dark:text-slate-200;
     text-decoration: none;
     font-weight: normal;
     font-size: x-large;
@@ -50,25 +46,26 @@ ul {
 
 .heading-link:hover,
 .text-link:hover {
-    color: rgb(0, 0, 0);
+    @apply text-black dark:text-white;
 }
 
 .text-link {
-    color: var(--primary);
+    @apply text-slate-800 dark:text-slate-200;
     text-decoration: none;
 }
 
 .basic-link {
-    color: var(--primary);
+    @apply text-slate-800 dark:text-slate-200;
 }
 
 /* button */
 
 .button {
-    background-color: var(--primary);
-    color: var(--secondary);
+    @apply bg-slate-700 hover:bg-slate-800 text-slate-100 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-100;
+    /* border-color for dark mode can be tricky if it's meant to match bg or be contrast */
+    @apply border-slate-700 dark:border-slate-600; 
     padding: 0.5rem 1rem;
-    border: 1px solid;
+    border: 1px solid; /* Keep existing border style if @apply border-color doesn't cover it fully */
     border-radius: 0.3rem;
     font-size: larger;
     cursor: pointer;
@@ -76,15 +73,16 @@ ul {
 }
 
 .show-button {
+    @apply text-slate-800 dark:text-slate-200; /* Assuming it inherits background */
     font-size: x-large;
     border: none;
-    background-color: inherit;
+    background-color: inherit; 
     cursor: pointer;
 }
 
 .cross-button {
+    @apply text-slate-800 dark:text-slate-200;
     border: none;
-    color: var(--primary);
     background: none;
     font-weight: bolder;
     font-size: large;
@@ -93,15 +91,22 @@ ul {
 
 /* inputs */
 .input-field {
+    @apply bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 border-gray-300 dark:border-slate-500;
     box-sizing: border-box;
     margin: 1rem .5rem 0 0;
     padding: 0.5rem;
     width: 80%;
+    border-width: 1px; /* Ensure border is visible */
 }
+.input-field::placeholder {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
 
 /* icon */
 .star {
-    color: gold;
+    /* gold is usually fine in both modes, but can specify dark if needed */
+    @apply text-yellow-500; 
     font-size: large;
     padding-left: 0.2rem;
     position: relative;
@@ -109,16 +114,16 @@ ul {
 }
 
 .heart-icon {
+    @apply text-red-600 dark:text-red-500; /* Example: make dark mode heart slightly less vibrant if needed */
     border: none;
     background: none;
-    color: rgb(242, 22, 22);
     font-size: x-large;
     margin-left: auto;
     display: flex;
 }
 
 .out-of-stock{
-    color: rgb(171, 173, 175);;
+    @apply text-gray-400 dark:text-gray-500;
 }
 
 /* font sizes */

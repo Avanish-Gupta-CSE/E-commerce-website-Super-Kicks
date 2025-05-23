@@ -1,7 +1,7 @@
 .product-listing{
     text-align: center;
-    background-color: #FAEDCD;
-
+    /* background-color: #FAEDCD; replaced by Tailwind */
+    @apply bg-yellow-50 dark:bg-slate-800; /* #FAEDCD is a light yellow. Chose a generic dark bg */
 }
 
 .product-listing .product-container{
@@ -57,7 +57,7 @@
     }
 
     .product-listing .mobile-filters{
-        background-color: white;
+        @apply bg-white dark:bg-slate-700;
         width: 100%;
         display:block;
         padding-bottom:1rem ;
@@ -81,7 +81,7 @@
 
     .mobile-filters .close{
         border: none;
-        background-color: white;
+        @apply bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100; /* Assuming button text color needs to be set */
         font-size: large;
         font-weight: bold;
         margin-top: 1rem;

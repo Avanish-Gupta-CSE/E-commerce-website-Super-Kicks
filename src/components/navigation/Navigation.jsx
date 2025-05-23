@@ -6,6 +6,7 @@ import { FaShoePrints } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useCartContext } from "../../contexts/CartProvider";
+import ThemeToggleButton from "../ThemeToggleButton/ThemeToggleButton"; // Import ThemeToggleButton
 
 export const Navigation = () => {
     const { login, userName } = useLoginContext();
@@ -65,6 +66,7 @@ export const Navigation = () => {
                     >
                         {login ? "Logout" : "Login"}
                     </NavLink>
+                    <ThemeToggleButton /> {/* Add ThemeToggleButton here for desktop */}
                 </div>
                 {login && <strong>Hello {userName}</strong>}
             </div>
@@ -115,6 +117,7 @@ export const Navigation = () => {
                         >
                             {login ? "Logout" : "Login"}
                         </NavLink>
+                        <ThemeToggleButton /> {/* Add ThemeToggleButton here for mobile */}
                     </div>
                     <input
                         className="search-bar"

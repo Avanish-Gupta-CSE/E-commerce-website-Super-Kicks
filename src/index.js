@@ -8,6 +8,7 @@ import { DataProvider } from "./contexts/DataProvider";
 import { LoginProvider } from "./contexts/LoginProvider";
 import { CartProvider } from "./contexts/CartProvider";
 import AddressProvider from "./contexts/AddressProvider";
+import { ThemeProvider } from "./contexts/ThemeProvider"; // Added ThemeProvider import
 
 import ScrollToTop from "./helpers/ScrollToTop";
 
@@ -17,16 +18,18 @@ makeServer();
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <ScrollToTop/>
-                <DataProvider>
-                    <LoginProvider>
-                        <CartProvider>
-                            <AddressProvider>
-                                <App />
-                            </AddressProvider>
-                        </CartProvider>
-                    </LoginProvider>
-                </DataProvider>
+            <ThemeProvider> {/* ThemeProvider wraps other providers */}
+                <ScrollToTop/>
+                    <DataProvider>
+                        <LoginProvider>
+                            <CartProvider>
+                                <AddressProvider>
+                                    <App />
+                                </AddressProvider>
+                            </CartProvider>
+                        </LoginProvider>
+                    </DataProvider>
+            </ThemeProvider>
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById("root")

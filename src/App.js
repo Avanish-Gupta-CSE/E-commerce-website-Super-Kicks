@@ -15,8 +15,10 @@ import React from "react";
 import Checkout from "./pages/checkout/Checkout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTheme } from "./contexts/ThemeContext"; // Import useTheme
 
 function App() {
+    const { theme: appTheme } = useTheme(); // Get current theme, aliased to avoid conflict if any
 
     return (
         <div className="App">
@@ -60,7 +62,7 @@ function App() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover={false}
-                theme="light"
+                theme={appTheme} // Use dynamic theme
             />{" "}
         </div>
     );

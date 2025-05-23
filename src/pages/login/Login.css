@@ -8,21 +8,22 @@
 .light-link{
     text-decoration: none;
     margin-left: 1rem;
-    color: #7b7b7b;
+    @apply text-gray-500 dark:text-gray-400; /* Was #7b7b7b */
     font-size: initial;
 }
 
-.login-button{
+.login-button{ /* This class seems to only set display and width, no color styles to change */
     display: block;
     width: 80%;
 }
 
-.test{
-    border: none;
-    border: 1px solid var(--primary);
+.test{ /* This seems to be a button for test credentials */
+    @apply bg-slate-100 text-slate-700 border-slate-700 dark:bg-slate-700 dark:text-slate-100 dark:border-slate-500;
+    /* border: none; -- this was immediately overridden by border: 1px solid var(--primary) */
+    border-width: 1px;
+    border-style: solid;
     border-radius: .2rem;
     cursor: pointer;
     margin-left: 1rem;
-    background-color: var(--secondary);
     padding: .2rem 1rem;
 }

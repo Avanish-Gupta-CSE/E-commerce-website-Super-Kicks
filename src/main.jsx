@@ -2,31 +2,33 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { makeServer } from "./server";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthProvider";
 import { DataProvider } from "./contexts/DataProvider";
-import { LoginProvider } from "./contexts/LoginProvider";
 import { CartProvider } from "./contexts/CartProvider";
+import { WishlistProvider } from "./contexts/WishlistProvider";
 import AddressProvider from "./contexts/AddressProvider";
+import { OrderProvider } from "./contexts/OrderProvider";
 import ScrollToTop from "./helpers/ScrollToTop";
-
-// Initialize mock server
-makeServer();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ScrollToTop />
-      <DataProvider>
-        <LoginProvider>
+      <AuthProvider>
+        <DataProvider>
           <CartProvider>
-            <AddressProvider>
-              <App />
-            </AddressProvider>
+            <WishlistProvider>
+              <AddressProvider>
+                <OrderProvider>
+                  <App />
+                </OrderProvider>
+              </AddressProvider>
+            </WishlistProvider>
           </CartProvider>
-        </LoginProvider>
-      </DataProvider>
+        </DataProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

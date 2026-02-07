@@ -78,44 +78,42 @@ Each decision follows this format:
 
 ---
 
-## ADR-004: Backend Provider
+## ADR-004: Backend Provider -- Supabase
 
 **Date**: 2026-02-07
-**Status**: PENDING DECISION
+**Status**: ACCEPTED
 
-**Context**: The app currently uses MirageJS (in-browser mock). This must be replaced with a real backend for production use.
+**Context**: The app used MirageJS (in-browser mock). Needed a real backend for production use.
 
-**Options**:
+**Decision**: Supabase -- hosted PostgreSQL with built-in auth, real-time, and storage.
 
-### Option A: Supabase (Recommended)
-- **Pros**: Hosted PostgreSQL, built-in auth (email + social), real-time subscriptions, storage, edge functions, generous free tier
-- **Cons**: Vendor lock-in, less control over server logic
+**Alternatives**:
+- **Express.js + PostgreSQL**: Full control but more setup, need to manage auth/hosting.
+- **Firebase**: Good auth but NoSQL (Firestore) less ideal for relational e-commerce data.
 
-### Option B: Express.js + PostgreSQL
-- **Pros**: Full control, flexible, can deploy anywhere
-- **Cons**: More setup work, need to manage auth, hosting, scaling yourself
-
-### Option C: Firebase
-- **Pros**: Familiar, good auth, real-time database, hosting
-- **Cons**: NoSQL (Firestore) less ideal for relational e-commerce data, Google lock-in
-
-**Recommendation**: Supabase -- fastest path to production with PostgreSQL (relational data is better for e-commerce), built-in auth, and storage.
+**Consequences**:
+- Hosted PostgreSQL with relational data model (ideal for e-commerce)
+- Built-in auth (email/password + Google OAuth)
+- Row Level Security (RLS) for data protection
+- Real-time subscriptions available for future features
+- Generous free tier for development
+- Vendor lock-in (mitigated by standard SQL and open-source Supabase)
 
 ---
 
 ## ADR-005: Payment Provider
 
 **Date**: 2026-02-07
-**Status**: PENDING DECISION
+**Status**: DEFERRED
 
 **Context**: The app needs payment integration for the checkout flow.
 
-**Options**:
+**Decision**: Deferred. Mock "Place Order" flow creates orders in database without real payment processing. Stripe integration planned as a future enhancement.
+
+**Alternatives**:
 - **Stripe**: Industry standard, great docs, global support, test mode
 - **Razorpay**: India-focused, good for INR transactions
 - **PayPal**: Global but less developer-friendly
-
-**Recommendation**: Stripe -- best documentation, widest support, easy test mode for development.
 
 ---
 

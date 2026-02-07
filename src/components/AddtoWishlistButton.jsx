@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { useCartContext } from "../contexts/CartProvider";
-import { useLoginContext } from "../contexts/LoginProvider";
+import { useWishlistContext } from "../contexts/WishlistProvider";
+import { useAuth } from "../contexts/AuthProvider";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export const AddToWishlistButton = ({ product, details }) => {
@@ -8,11 +8,11 @@ export const AddToWishlistButton = ({ product, details }) => {
     isItemPresentInWishlistHandler,
     addToWishlistHandler,
     removeFromWishlistHandler,
-  } = useCartContext();
-  const { login } = useLoginContext();
+  } = useWishlistContext();
+  const { isAuthenticated } = useAuth();
 
   const handleAdd = () => {
-    if (login) {
+    if (isAuthenticated) {
       toast.success("Added to Wishlist");
       addToWishlistHandler(product);
     } else {

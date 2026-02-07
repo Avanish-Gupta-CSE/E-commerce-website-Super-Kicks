@@ -1,119 +1,162 @@
-import { Link } from "react-router-dom";
-import { useLoginContext } from "../../contexts/LoginProvider";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthProvider";
+import { toast } from "react-toastify";
 import "./Signup.css";
-import { BiShowAlt, BiHide } from "react-icons/bi";
 
 export const Signup = () => {
-  const [show, setShow] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const { isAuthenticated, signUp } = useAuth();
 
-  const {
-    setSEmailInputHandler,
-    setFNInputHandler,
-    setLNInputHandler,
-    setSPasswordInputHandler,
-    setConfirmPasswordInputHandler,
-    signUpHandler,
-  } = useLoginContext();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      toast.warn("Please fill in all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.warn("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.warn("Password must be at least 6 characters");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await signUp({ email, password, firstName, lastName });
+    } catch {
+      // toast handled in AuthProvider
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (isAuthenticated) {
+    return (
+      <div className="signup-container">
+        <p className="signup-status">You are already signed in.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="signup">
-      <h1>Sign Up</h1>
-      <div className="mb-3">
-        <label htmlFor="signup-email" className="mb-1 block text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="signup-email"
-          className="input-field"
-          onChange={(e) => setSEmailInputHandler(e)}
-          placeholder="Enter your email"
-          type="email"
-          autoComplete="email"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="signup-firstname" className="mb-1 block text-sm font-medium">
-          First Name
-        </label>
-        <input
-          id="signup-firstname"
-          className="input-field"
-          onChange={(e) => setFNInputHandler(e)}
-          placeholder="Enter your first name"
-          type="text"
-          autoComplete="given-name"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="signup-lastname" className="mb-1 block text-sm font-medium">
-          Last Name
-        </label>
-        <input
-          id="signup-lastname"
-          className="input-field"
-          onChange={(e) => setLNInputHandler(e)}
-          placeholder="Enter your last name"
-          type="text"
-          autoComplete="family-name"
-        />
-      </div>
-      <div className="relative mb-3">
-        <label htmlFor="signup-password" className="mb-1 block text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="signup-password"
-          className="input-field"
-          onChange={(e) => setSPasswordInputHandler(e)}
-          placeholder="Create a password"
-          type={show ? "text" : "password"}
-          autoComplete="new-password"
-        />
+    <div className="signup-container">
+      <form className="signup" onSubmit={handleSignup}>
+        <h1>Sign Up</h1>
+
+        <div className="input-group">
+          <label htmlFor="signup-firstname">First Name</label>
+          <input
+            id="signup-firstname"
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            autoComplete="given-name"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="signup-lastname">Last Name</label>
+          <input
+            id="signup-lastname"
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            autoComplete="family-name"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="signup-email">Email</label>
+          <input
+            id="signup-email"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="signup-password">Password</label>
+          <div className="password-wrapper">
+            <input
+              id="signup-password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password (min 6 characters)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
+              required
+              minLength={6}
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="signup-confirm-password">Confirm Password</label>
+          <div className="password-wrapper">
+            <input
+              id="signup-confirm-password"
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              aria-label={
+                showConfirmPassword ? "Hide password" : "Show password"
+              }
+            >
+              {showConfirmPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
         <button
-          className="show-button absolute right-2 top-8"
-          onClick={() => setShow(!show)}
-          type="button"
-          aria-label={show ? "Hide password" : "Show password"}
+          className="button signup-button"
+          type="submit"
+          disabled={submitting}
         >
-          {show ? <BiHide /> : <BiShowAlt />}
+          {submitting ? "Creating account..." : "Sign Up"}
         </button>
-      </div>
-      <div className="relative mb-3">
-        <label htmlFor="signup-confirm" className="mb-1 block text-sm font-medium">
-          Confirm Password
-        </label>
-        <input
-          id="signup-confirm"
-          className="input-field"
-          onChange={(e) => setConfirmPasswordInputHandler(e)}
-          placeholder="Confirm your password"
-          type={showConfirm ? "text" : "password"}
-          autoComplete="new-password"
-        />
-        <button
-          className="show-button absolute right-2 top-8"
-          onClick={() => setShowConfirm(!showConfirm)}
-          type="button"
-          aria-label={showConfirm ? "Hide password" : "Show password"}
-        >
-          {showConfirm ? <BiHide /> : <BiShowAlt />}
-        </button>
-      </div>
-      <button
-        className="button signup-button"
-        type="submit"
-        onClick={signUpHandler}
-      >
-        Sign Up
-      </button>
-      <p className="text-sm">
-        Already have an account?{" "}
-        <Link className="basic-link" to="/login">
-          Log In
-        </Link>
-      </p>
+
+        <p className="login-link">
+          Already have an account? <Link to="/login">Log In</Link>
+        </p>
+      </form>
     </div>
   );
 };

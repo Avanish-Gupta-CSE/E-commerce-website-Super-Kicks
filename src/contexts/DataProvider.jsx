@@ -1,5 +1,14 @@
-import { useNavigate } from "react-router";
-import { createContext, useContext, useEffect, useReducer, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useMemo,
+  useCallback,
+} from "react";
+import * as productsApi from "../lib/api/products";
+import * as categoriesApi from "../lib/api/categories";
 
 const DataContext = createContext();
 
@@ -64,11 +73,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch("/api/products");
-      if (res.status === 200) {
-        const { products } = await res.json();
-        dispatch({ type: "setProducts", payload: products });
-      }
+      const products = await productsApi.getProducts();
+      dispatch({ type: "setProducts", payload: products });
     } catch (error) {
       console.error("[Products] Failed to fetch:", error.message);
     } finally {
@@ -78,11 +84,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const res = await fetch("/api/categories");
-      if (res.status === 200) {
-        const { categories } = await res.json();
-        dispatch({ type: "setCategories", payload: categories });
-      }
+      const categories = await categoriesApi.getCategories();
+      dispatch({ type: "setCategories", payload: categories });
     } catch (error) {
       console.error("[Categories] Failed to fetch:", error.message);
     } finally {
@@ -164,7 +167,8 @@ export const DataProvider = ({ children }) => {
 
     if (state.priceFilter) {
       data = data.filter(
-        ({ discountedPrice }) => Number(discountedPrice) <= Number(state.priceFilter)
+        ({ discountedPrice }) =>
+          Number(discountedPrice) <= Number(state.priceFilter)
       );
     }
 
@@ -173,9 +177,13 @@ export const DataProvider = ({ children }) => {
     }
 
     if (state.sortPriceFilter === "asc") {
-      data.sort((a, b) => Number(a.discountedPrice) - Number(b.discountedPrice));
+      data.sort(
+        (a, b) => Number(a.discountedPrice) - Number(b.discountedPrice)
+      );
     } else if (state.sortPriceFilter === "desc") {
-      data.sort((a, b) => Number(b.discountedPrice) - Number(a.discountedPrice));
+      data.sort(
+        (a, b) => Number(b.discountedPrice) - Number(a.discountedPrice)
+      );
     }
 
     return data;
@@ -235,9 +243,7 @@ export const DataProvider = ({ children }) => {
   );
 
   return (
-    <DataContext.Provider value={value}>
-      {children}
-    </DataContext.Provider>
+    <DataContext.Provider value={value}>{children}</DataContext.Provider>
   );
 };
 

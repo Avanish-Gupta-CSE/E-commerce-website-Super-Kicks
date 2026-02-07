@@ -9,9 +9,9 @@
 **Name**: Super Kicks -- E-commerce Sneaker Store
 **Original creation**: ~2022 (4 years ago)
 **Repo**: `E-commerce-website-Super-Kicks`
-**Status**: Active revamp -- Phases 0-9 foundation complete
+**Status**: Active revamp -- Phases 0-9 foundation + Phase 2 (Supabase backend) + Phase 5 (new features) complete
 
-### Current Tech Stack (After Revamp)
+### Current Tech Stack
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
@@ -19,8 +19,8 @@
 | Framework | React | 18.2.0 |
 | Routing | react-router-dom | 6.11.1 |
 | State | Context API + useReducer (memoized) | -- |
-| Mock Backend | MirageJS (to be replaced) | 0.1.47 |
-| Auth | jwt-encode / jwt-decode (mock) | 1.0.1 / 3.1.2 |
+| Backend | Supabase (PostgreSQL + Auth) | latest |
+| Auth | Supabase Auth (email + Google OAuth) | -- |
 | Styling | Tailwind CSS + legacy CSS with @apply | 3.4.x |
 | Icons | react-icons (migrating to Lucide) | 4.8.0 |
 | Notifications | react-toastify | 9.1.3 |
@@ -28,13 +28,15 @@
 | Linting | ESLint + Prettier | 8.x / 3.x |
 | Utility | clsx + tailwind-merge (cn()) | -- |
 
-### What Was the Original Stack
+### What Changed from Original
 
 | Layer | Old | New |
 |-------|-----|-----|
 | Build | Create React App | Vite |
 | Entry | ReactDOM.render | createRoot |
 | Styling | Vanilla CSS | Tailwind CSS |
+| Backend | MirageJS (mock) | Supabase (real) |
+| Auth | jwt-encode/decode (mock) | Supabase Auth |
 | Testing | None | Vitest + RTL |
 | Linting | CRA default | ESLint strict + Prettier |
 | Error Handling | console.log(e) | Error boundaries + toast |
@@ -47,13 +49,17 @@
 
 ```
 /                               # Root
-  index.html                    # Vite entry HTML (moved from public/)
+  index.html                    # Vite entry HTML
   vite.config.js                # Vite configuration
   tailwind.config.js            # Tailwind CSS theme & config
   postcss.config.js             # PostCSS for Tailwind
   .eslintrc.cjs                 # ESLint config
   .prettierrc                   # Prettier config
-  package.json                  # Updated for Vite (type: module)
+  .env.local                    # Supabase keys (gitignored)
+  package.json                  # Updated for Vite + Supabase
+  supabase/
+    schema.sql                  # Database schema + RLS policies
+    seed.sql                    # Seed data (17 products, 4 categories)
   .enhancement/                 # Project tracking docs
     Progress.md                 # THIS FILE
     ARCHITECTURE.md             # Current + target architecture
@@ -61,58 +67,59 @@
     ROADMAP.md                  # Phased delivery plan
     DECISIONS.md                # Architecture Decision Records
     CHANGELOG.md                # Change log
-  .cursor/rules/                # Cursor AI coding rules
-    general.mdc                 # Clean code principles
-    react.mdc                   # React best practices
-    styling.mdc                 # Tailwind conventions
-    typescript.mdc              # TypeScript rules
-    testing.mdc                 # Testing guidelines
-    git.mdc                     # Git conventions
-    security.mdc                # Security rules
+  .cursor/rules/                # Cursor AI coding rules (7 files)
   src/
-    main.jsx                    # NEW entry point (replaces index.js)
-    App.jsx                     # Root component (renamed from .js)
-    App.css                     # Simplified global styles
-    index.css                   # Tailwind directives + legacy component classes
-    server.js                   # MirageJS mock server
+    main.jsx                    # Entry point (AuthProvider hierarchy)
+    App.jsx                     # Root component with routes
+    App.css                     # Global styles
+    index.css                   # Tailwind directives + legacy classes
     lib/
-      utils.js                  # NEW: cn() utility (clsx + twMerge)
-      utils.test.js             # NEW: Tests for utilities
+      supabase.js               # Supabase client singleton
+      utils.js                  # cn() utility (clsx + twMerge)
+      utils.test.js             # Tests for utilities
+      api/                      # Supabase API layer
+        products.js             # getProducts, getProductById, getProductsByCategory
+        categories.js           # getCategories
+        cart.js                 # getCart, addToCart, updateCartItem, removeFromCart, clearCart
+        wishlist.js             # getWishlist, addToWishlist, removeFromWishlist
+        orders.js               # createOrder, getOrders, getOrderById
+        reviews.js              # getReviews, addReview, deleteReview
+        addresses.js            # getAddresses, addAddress, updateAddress, deleteAddress
+        auth.js                 # signUp, signIn, signInWithGoogle, signOut, resetPassword, getProfile, updateProfile
     test/
-      setup.js                  # NEW: Test setup file
+      setup.js                  # Test setup file
     components/
-      ErrorBoundary.jsx         # NEW: Error boundary component
-      AddToCartButton.jsx       # Updated: removed unused vars, added aria
-      AddtoWishlistButton.jsx   # Updated: fixed naming, added aria
-      RequiresAuth.jsx          # Unchanged
-      RequiresAuth.test.jsx     # NEW: Component test
-      navigation/               # Updated: aria labels, semantic nav
-      footer/                   # Updated: modern layout, dynamic year
-      product-card/             # Updated: Tailwind CSS
-      spinner/                  # Updated: Tailwind CSS
+      ErrorBoundary.jsx         # Error boundary component
+      AddToCartButton.jsx       # Uses useAuth + useCartContext
+      AddtoWishlistButton.jsx   # Uses useAuth + useWishlistContext
+      RequiresAuth.jsx          # Uses useAuth (Supabase session)
+      RequiresAuth.test.jsx     # Component test
+      navigation/               # Nav bar (auth-aware, profile link)
+      footer/                   # Modern footer
+      product-card/             # Product card with Tailwind
+      spinner/                  # Loading spinner
+      reviews/                  # ReviewSection component
     contexts/
-      DataProvider.jsx          # Updated: useMemo, useCallback, fixed require()
-      LoginProvider.jsx         # Updated: fixed typo, memoized, better errors
-      CartProvider.jsx          # Updated: memoized, renamed handler, better errors
-      AddressProvider.jsx       # Updated: memoized, single dispatch for addAddress
+      AuthProvider.jsx          # Supabase auth (signIn, signUp, Google, reset)
+      DataProvider.jsx          # Products + categories from Supabase
+      CartProvider.jsx          # Cart from Supabase cart_items table
+      WishlistProvider.jsx      # Wishlist from Supabase wishlist_items table
+      AddressProvider.jsx       # Addresses from Supabase addresses table
+      OrderProvider.jsx         # Orders from Supabase orders table
     pages/
-      not-found/                # NEW: 404 page
-      home/                     # Updated: hero section, features section
-      product-listing/          # Updated: Tailwind CSS
-      Product-details/          # Updated: better alt text, lazy loading
-      cart/                     # Updated: fixed semantic HTML
-      checkout/                 # Updated: removed console.log, protected route
-      login/                    # Updated: proper labels, a11y
-      sign-up/                  # Updated: fixed typo, proper labels
-      wishlist/                 # Updated: Tailwind CSS
-    backend/
-      controllers/
-        AuthController.js       # Updated: removed process.env secret exposure
-      utils/
-        authUtils.js            # Updated: local mock secret, no process.env
-      db/
-        products.js             # Updated: fixed string prices, gender consistency
-        categories.js           # Updated: fixed wrong description
+      home/                     # Hero section, categories, trending
+      product-listing/          # Products grid with filters
+      Product-details/          # Product info + ReviewSection
+      cart/                     # Shopping cart
+      checkout/                 # Checkout with real order creation
+      login/                    # Login (email + Google + reset)
+      sign-up/                  # Sign up with validation
+      wishlist/                 # Wishlist (uses WishlistProvider)
+      profile/                  # User profile page
+      orders/                   # Order history + order detail
+      not-found/                # 404 page
+    helpers/
+      ScrollToTop.jsx           # Scroll to top on navigation
 ```
 
 ---
@@ -124,83 +131,57 @@
 - Created `.cursor/rules/` with 7 coding standard files
 
 ### Phase 1: Tech Stack Modernization
-- Migrated from CRA to Vite (vite.config.js, new index.html at root)
-- Added Tailwind CSS with custom theme (colors, animations, shadows)
+- Migrated from CRA to Vite
+- Added Tailwind CSS with custom theme
 - Migrated all CSS files to use @apply with Tailwind utilities
 - Fixed deprecated ReactDOM.render -> createRoot
-- Fixed require() -> import in DataProvider and AuthController
-- Updated package.json (type: module, Vite scripts)
-- Added path alias (@/ -> src/)
 - Added ESLint + Prettier with Tailwind plugin
-- Added cn() utility (clsx + tailwind-merge)
+- Added cn() utility
+
+### Phase 2: Backend Implementation (Supabase)
+- Installed `@supabase/supabase-js`, created client singleton
+- Designed database schema with 9 tables and full RLS policies
+- Created seed data script (17 products, 4 categories)
+- Built API layer with 8 modules (data normalization for backward compat)
+- Created AuthProvider with email/password + Google OAuth + password reset
+- Rewrote DataProvider, CartProvider, AddressProvider to use Supabase
+- Separated wishlist into WishlistProvider
+- Created OrderProvider for order management
+- Removed MirageJS, jwt-encode/decode, and entire src/backend/ folder
 
 ### Phase 3: Security Fixes
-- Removed process.env.REACT_APP_JWT_SECRET from frontend
-- JWT secret now uses local constant (marked as mock-only)
-- Improved error messages (no internal details leaked)
-- Added proper error handling in auth controller
-- localStorage token handling improved (cleared on logout)
+- Replaced mock JWT with Supabase Auth
+- Row Level Security on all tables
+- Session management via Supabase (no more localStorage tokens)
+- Input validation on forms
 
 ### Phase 4: UI/UX Overhaul
-- Modern hero section on Home page with gradient overlay
-- "Shop by Category" and "Trending Now" sections with improved layout
-- Feature highlights section (Free Shipping, Easy Returns, Authentic)
-- Updated color palette (primary: #1a1a2e, accent: #e94560)
-- Modern card shadows and hover animations
-- Updated navigation with semantic `<nav>` element
-- Skip to content link for keyboard users
-- 404 Not Found page
-- Error Boundary with fallback UI
-- Protected checkout route
-- Updated font to Inter (from Source Sans Pro)
+- Modern hero section, 404 page, Error Boundary
+- Updated navigation (auth-aware, profile link)
+- Modern Login/Signup pages (Google OAuth, password reset)
+
+### Phase 5: New Features
+- Order history page (`/orders`) with status badges
+- Order detail page (`/orders/:id`) with items and shipping info
+- Product reviews (star rating, comments, average calculation)
+- User profile page (`/profile`) with edit name, addresses, orders link
+- Wishlist separated into own provider
 
 ### Phase 6: Code Quality
-- Memoized all context values with useMemo
-- Wrapped all handlers with useCallback
-- Fixed typo: conformPassword -> confirmPassword
-- Removed all unused variables (counter, wishlistCounter)
-- Removed debug console.log from Checkout
-- Proper error handling with console.error + toast notifications
-- Fixed product data (string prices -> numbers, wrong category description)
-- Fixed semantic HTML (<p> wrapping <h2> in Cart)
-- Separated addAddress into single dispatch action
+- Memoized all contexts, fixed typos, error handling, lazy loading
 
 ### Phase 7: Accessibility
-- Added aria-label to all icon-only buttons and navigation links
-- Added proper <label> elements to all form inputs
-- Improved image alt text (descriptive, product-specific)
-- Added skip navigation link
-- Added aria-hidden to decorative icons
-- Added search input type and aria-label
-- Added autoComplete attributes to form inputs
+- ARIA labels, form labels, skip nav, semantic HTML
 
 ### Phase 8: SEO & Performance
-- Updated meta description and title
-- Updated theme-color meta tag
-- Switched to preconnected Google Fonts (Inter)
-- Added loading="lazy" to product images
-- Removed external CDN scripts (mockman CSS, toastify CDN)
-- Memoized filtered products computation
+- Meta tags, font optimization, lazy loading images
 
 ### Phase 9: Testing
-- Set up Vitest with happy-dom environment
-- Created test setup file with jest-dom matchers
-- Wrote 5 unit tests for cn() utility
-- Wrote 2 component tests for RequiresAuth
-- All 7 tests passing
+- Vitest + RTL with 7 passing tests
 
 ---
 
 ## Pending / Next Steps
-
-### Phase 2: Backend (Requires Decision)
-- Backend provider not yet chosen (Supabase recommended -- see DECISIONS.md)
-- MirageJS mock still in use
-- Once decided: implement auth, database, API, payments, image storage
-
-### Phase 5: New Features (Requires Backend)
-- Order history, reviews, recommendations, variants, coupons, PWA
-- All documented in ROADMAP.md
 
 ### Remaining Improvements
 - Complete TypeScript migration (rename .jsx -> .tsx, add interfaces)
@@ -211,6 +192,21 @@
 - Add loading skeletons (replace spinner)
 - Code splitting with React.lazy
 - Full responsive audit
+- Stripe payment integration
+- Product recommendations ("You may also like")
+- Advanced search with autocomplete
+- Email notifications for orders
+
+### Setup Instructions for Supabase
+1. Create a Supabase project at https://supabase.com
+2. Run `supabase/schema.sql` in the SQL editor
+3. Run `supabase/seed.sql` in the SQL editor
+4. Copy project URL and anon key into `.env.local`:
+   ```
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key
+   ```
+5. Enable Google OAuth in Supabase Auth settings (optional)
 
 ---
 
@@ -224,3 +220,5 @@
 6. Check `DECISIONS.md` before making architectural choices
 7. Follow `.cursor/rules/` for coding standards
 8. Update this file and `CHANGELOG.md` after completing work
+9. Supabase schema: `supabase/schema.sql`, seed: `supabase/seed.sql`
+10. API layer: `src/lib/api/` (8 modules with normalization)

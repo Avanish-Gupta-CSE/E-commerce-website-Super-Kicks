@@ -1,0 +1,98 @@
+.profile-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.profile-container h1 {
+  margin-bottom: 1.5rem;
+}
+
+.profile-section {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-section h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.profile-info p {
+  margin: 0.4rem 0;
+}
+
+.profile-info .button {
+  margin-top: 1rem;
+}
+
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-edit-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-edit-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.profile-edit-form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.profile-edit-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.profile-addresses {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.profile-address-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.profile-address-card p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.button-secondary {
+  background-color: #e5e7eb !important;
+  color: #374151 !important;
+}
+
+.button-danger {
+  background-color: #dc2626 !important;
+  color: #fff !important;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.button-danger:hover {
+  background-color: #b91c1c !important;
+}

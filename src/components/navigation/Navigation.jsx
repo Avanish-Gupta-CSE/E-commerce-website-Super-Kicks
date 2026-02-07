@@ -1,15 +1,25 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./navigation.css";
 import { useDataContext } from "../../contexts/DataProvider";
-import { useLoginContext } from "../../contexts/LoginProvider";
-import { FaShoePrints } from "react-icons/fa";
-import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
+import { useAuth } from "../../contexts/AuthProvider";
 import { useCartContext } from "../../contexts/CartProvider";
+import { useWishlistContext } from "../../contexts/WishlistProvider";
+import { FaShoePrints } from "react-icons/fa";
+import { AiOutlineShoppingCart, AiOutlineHeart, AiOutlineUser } from "react-icons/ai";
 
 export const Navigation = () => {
-  const { login, userName } = useLoginContext();
+  const { isAuthenticated, userName, signOut } = useAuth();
   const { searchHandler } = useDataContext();
-  const { cart, wishlist } = useCartContext();
+  const { cart } = useCartContext();
+  const { wishlist } = useWishlistContext();
+  const navigate = useNavigate();
+
+  const handleAuthClick = (e) => {
+    if (isAuthenticated) {
+      e.preventDefault();
+      signOut();
+    }
+  };
 
   return (
     <>
@@ -55,16 +65,30 @@ export const Navigation = () => {
             <AiOutlineHeart aria-hidden="true" />
             <span className="item-no">{wishlist.length}</span>
           </NavLink>
+          {isAuthenticated && (
+            <NavLink
+              className={({ isActive }) =>
+                `text-link icon ${isActive ? "font-bold" : ""}`
+              }
+              to="/profile"
+              aria-label="User profile"
+            >
+              <AiOutlineUser aria-hidden="true" />
+            </NavLink>
+          )}
           <NavLink
             className={({ isActive }) =>
               `text-link ${isActive ? "font-bold" : ""}`
             }
             to="/login"
+            onClick={handleAuthClick}
           >
-            {login ? "Logout" : "Login"}
+            {isAuthenticated ? "Logout" : "Login"}
           </NavLink>
         </div>
-        {login && <strong className="text-sm">Hello, {userName}</strong>}
+        {isAuthenticated && (
+          <strong className="text-sm">Hello, {userName}</strong>
+        )}
       </nav>
 
       <nav className="nav-bar mobile" aria-label="Mobile navigation">
@@ -102,13 +126,25 @@ export const Navigation = () => {
             <AiOutlineHeart aria-hidden="true" />
             <span className="item-no">{wishlist.length}</span>
           </NavLink>
+          {isAuthenticated && (
+            <NavLink
+              className={({ isActive }) =>
+                `text-link icon ${isActive ? "font-bold" : ""}`
+              }
+              to="/profile"
+              aria-label="User profile"
+            >
+              <AiOutlineUser aria-hidden="true" />
+            </NavLink>
+          )}
           <NavLink
             className={({ isActive }) =>
               `text-link ${isActive ? "font-bold" : ""}`
             }
             to="/login"
+            onClick={handleAuthClick}
           >
-            {login ? "Logout" : "Login"}
+            {isAuthenticated ? "Logout" : "Login"}
           </NavLink>
         </div>
         <input

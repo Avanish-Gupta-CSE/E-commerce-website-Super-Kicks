@@ -5,6 +5,72 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [2.0.0] - 2026-02-07 -- Supabase Backend + New Features
+
+### Added
+- **Supabase integration** replacing MirageJS mock backend
+  - `@supabase/supabase-js` client library
+  - `src/lib/supabase.js` -- Supabase client singleton
+  - `.env.local` for Supabase project URL and anon key
+- **Database schema** (`supabase/schema.sql`) with 9 tables:
+  - `profiles`, `categories`, `products`, `cart_items`, `wishlist_items`, `orders`, `order_items`, `reviews`, `addresses`
+  - Row Level Security (RLS) policies on all tables
+  - Auto-create profile trigger on user signup
+- **Seed data** (`supabase/seed.sql`) -- 17 products + 4 categories
+- **API layer** (`src/lib/api/`) with 8 modules:
+  - `products.js`, `categories.js`, `cart.js`, `wishlist.js`, `orders.js`, `reviews.js`, `addresses.js`, `auth.js`
+  - All modules normalize Supabase data to match the existing UI component shape
+- **AuthProvider** (`src/contexts/AuthProvider.jsx`) -- Supabase auth with:
+  - Email/password sign in and sign up
+  - Google OAuth sign in
+  - Password reset via email
+  - Profile management (update name)
+  - `onAuthStateChange` listener for session persistence
+- **WishlistProvider** (`src/contexts/WishlistProvider.jsx`) -- separated from CartProvider
+- **OrderProvider** (`src/contexts/OrderProvider.jsx`) -- order creation and history
+- **Orders page** (`/orders`) -- list all past orders with status badges
+- **Order detail page** (`/orders/:id`) -- order items, shipping address, total
+- **Profile page** (`/profile`) -- edit name, view email, member since date, saved addresses, link to orders
+- **Review system** (`src/components/reviews/ReviewSection.jsx`) -- on ProductDetails page:
+  - Star rating selector (1-5) with hover preview
+  - Comment submission for authenticated users
+  - Auto-calculated average rating displayed on product cards
+  - Delete own reviews
+  - Login prompt for unauthenticated visitors
+- **Profile link** in navigation bar (visible when authenticated)
+
+### Changed
+- **main.jsx**: Removed MirageJS `makeServer()`, added AuthProvider/WishlistProvider/OrderProvider to provider hierarchy
+- **App.jsx**: Added routes for `/profile`, `/orders`, `/orders/:id` (all protected)
+- **DataProvider**: Replaced `fetch("/api/products")` with `productsApi.getProducts()` (Supabase)
+- **CartProvider**: Replaced all `/api/user/cart` fetch calls with `cartApi` functions; now depends on `useAuth` for auth state; added `clearCartHandler`
+- **AddressProvider**: Replaced local state with Supabase `addresses` table; CRUD operations persist to database
+- **Navigation**: Uses `useAuth` and `useWishlistContext`; added profile icon link
+- **RequiresAuth**: Uses `useAuth` instead of `useLoginContext`; shows nothing while auth loading
+- **AddToCartButton**: Uses `useAuth` for authentication check
+- **AddToWishlistButton**: Uses `useWishlistContext` instead of `useCartContext`
+- **Wishlist page**: Uses `useWishlistContext` instead of `useCartContext`
+- **Login page**: Rewritten with `useAuth` for signIn, Google OAuth button, password reset form
+- **Signup page**: Rewritten with `useAuth` for signUp, proper validation (min 6 chars)
+- **Checkout page**: Creates real order via `useOrderContext.placeOrder()`, clears cart after order, links to orders page
+- **Cart page**: Passes product objects to inc/dec handlers (not just IDs)
+- **ProductDetails**: Added `ReviewSection` component, displays rating and review count
+- **RequiresAuth.test.jsx**: Updated to mock `useAuth` instead of `useLoginContext`
+
+### Removed
+- **MirageJS** (`miragejs` package) -- replaced by Supabase
+- **jwt-encode** and **jwt-decode** packages -- replaced by Supabase auth
+- **mockman-js** package
+- **src/server.js** -- MirageJS server configuration
+- **src/backend/** folder entirely:
+  - `controllers/AuthController.js`, `CartController.js`, `CategoryController.js`, `ProductController.js`, `WishlistController.js`
+  - `utils/authUtils.js`
+  - `db/users.js`, `db/products.js`, `db/categories.js`
+- **src/index.js** -- old CRA entry point (replaced by `src/main.jsx`)
+- **src/contexts/LoginProvider.jsx** -- replaced by `AuthProvider`
+
+---
+
 ## [1.0.0] - 2026-02-07 -- Major Revamp
 
 ### Added

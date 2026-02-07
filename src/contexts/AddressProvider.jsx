@@ -1,10 +1,21 @@
-import { createContext, useContext, useReducer, useMemo, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useMemo,
+  useCallback,
+} from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "./AuthProvider";
+import * as addressesApi from "../lib/api/addresses";
 
 const AddressContext = createContext();
 
 const reducerFunction = (state, action) => {
   switch (action.type) {
+    case "setAddressData":
+      return { ...state, addressData: action.payload };
     case "setNameHandler":
       return { ...state, name: action.payload };
     case "setMobileNoHandler":
@@ -15,19 +26,9 @@ const reducerFunction = (state, action) => {
       return { ...state, pinCode: action.payload };
     case "setCityHandler":
       return { ...state, city: action.payload };
-    case "addAddress":
+    case "clearForm":
       return {
         ...state,
-        addressData: [
-          ...state.addressData,
-          {
-            name: state.name,
-            mobileNo: state.mobileNo,
-            pinCode: state.pinCode,
-            city: state.city,
-            address: state.address,
-          },
-        ],
         name: "",
         mobileNo: "",
         pinCode: "",
@@ -35,8 +36,6 @@ const reducerFunction = (state, action) => {
         address: "",
         showAddress: false,
       };
-    case "updateAddressData":
-      return { ...state, addressData: action.payload };
     case "showAddressBoxHandler":
       return { ...state, showAddress: action.payload };
     default:
@@ -45,15 +44,7 @@ const reducerFunction = (state, action) => {
 };
 
 const INITIAL_STATE = {
-  addressData: [
-    {
-      name: "John Snow",
-      mobileNo: 9999999999,
-      pinCode: 100001,
-      city: "London",
-      address: "23 School Lane",
-    },
-  ],
+  addressData: [],
   name: "",
   address: "",
   mobileNo: "",
@@ -63,7 +54,25 @@ const INITIAL_STATE = {
 };
 
 const AddressProvider = ({ children }) => {
+  const { isAuthenticated } = useAuth();
   const [state, dispatch] = useReducer(reducerFunction, INITIAL_STATE);
+
+  const fetchAddresses = useCallback(async () => {
+    if (!isAuthenticated) {
+      dispatch({ type: "setAddressData", payload: [] });
+      return;
+    }
+    try {
+      const addresses = await addressesApi.getAddresses();
+      dispatch({ type: "setAddressData", payload: addresses });
+    } catch (error) {
+      console.error("[Address] Failed to fetch:", error.message);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    fetchAddresses();
+  }, [fetchAddresses]);
 
   const setNameHandler = useCallback((e) => {
     dispatch({ type: "setNameHandler", payload: e.target.value });
@@ -85,20 +94,51 @@ const AddressProvider = ({ children }) => {
     dispatch({ type: "setAddressHandler", payload: e.target.value });
   }, []);
 
-  const addAddressHandler = useCallback(() => {
-    if (!state.name || !state.mobileNo || !state.address || !state.city || !state.pinCode) {
+  const addAddressHandler = useCallback(async () => {
+    if (
+      !state.name ||
+      !state.mobileNo ||
+      !state.address ||
+      !state.city ||
+      !state.pinCode
+    ) {
       toast.warn("Please fill all address fields");
       return;
     }
-    dispatch({ type: "addAddress" });
-  }, [state.name, state.mobileNo, state.address, state.city, state.pinCode]);
+    try {
+      await addressesApi.addAddress({
+        name: state.name,
+        mobileNo: state.mobileNo,
+        street: state.address,
+        city: state.city,
+        pincode: state.pinCode,
+      });
+      dispatch({ type: "clearForm" });
+      await fetchAddresses();
+    } catch (error) {
+      console.error("[Address] Failed to add:", error.message);
+      toast.error("Failed to add address");
+    }
+  }, [
+    state.name,
+    state.mobileNo,
+    state.address,
+    state.city,
+    state.pinCode,
+    fetchAddresses,
+  ]);
 
   const deleteHandler = useCallback(
-    (index) => {
-      const updatedData = state.addressData.filter((_, i) => i !== index);
-      dispatch({ type: "updateAddressData", payload: updatedData });
+    async (addressId) => {
+      try {
+        await addressesApi.deleteAddress(addressId);
+        await fetchAddresses();
+      } catch (error) {
+        console.error("[Address] Failed to delete:", error.message);
+        toast.error("Failed to delete address");
+      }
     },
-    [state.addressData]
+    [fetchAddresses]
   );
 
   const showAddressBoxHandler = useCallback((bool) => {
@@ -143,9 +183,7 @@ const AddressProvider = ({ children }) => {
   );
 
   return (
-    <AddressContext.Provider value={value}>
-      {children}
-    </AddressContext.Provider>
+    <AddressContext.Provider value={value}>{children}</AddressContext.Provider>
   );
 };
 

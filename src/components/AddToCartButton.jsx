@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { useCartContext } from "../contexts/CartProvider";
-import { useLoginContext } from "../contexts/LoginProvider";
+import { useAuth } from "../contexts/AuthProvider";
 import { toast } from "react-toastify";
 
 export const AddToCartButton = ({ product }) => {
-  const { login } = useLoginContext();
+  const { isAuthenticated } = useAuth();
   const { isItemPresentInCartHandler, addToCartHandler } = useCartContext();
 
   const handleAddToCart = () => {
-    if (login) {
+    if (isAuthenticated) {
       toast.success("Added to Cart");
       addToCartHandler(product);
     } else {

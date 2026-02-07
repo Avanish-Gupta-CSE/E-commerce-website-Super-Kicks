@@ -1,5 +1,13 @@
+.product-details-page {
+  @apply mx-auto max-w-5xl px-4 pb-12;
+}
+
 .product-details {
-  @apply mx-auto flex max-w-5xl gap-8 px-4 pb-12;
+  @apply flex gap-8;
+}
+
+.rating-count {
+  @apply text-sm text-muted;
 }
 
 .product-details .details {

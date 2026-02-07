@@ -28,7 +28,7 @@ export const ProductCard = ({ product }) => {
             </div>
 
             <Link className="link" to={`/products/${_id}`}>
-                <img src={productImage} alt={productName} />
+                <img src={productImage} alt={`${productName} sneakers`} loading="lazy" />
                 <h3>{productName}</h3>
                 <p className="price">
                     <strong>Price:</strong> ${discountedPrice}{" "}

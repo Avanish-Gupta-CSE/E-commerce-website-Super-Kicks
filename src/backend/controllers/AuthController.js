@@ -1,30 +1,27 @@
 import { v4 as uuid } from "uuid";
 import { Response } from "miragejs";
-import { formatDate } from "../utils/authUtils";
-const sign = require("jwt-encode");
+import { formatDate, MOCK_JWT_KEY } from "../utils/authUtils";
+import sign from "jwt-encode";
+
 /**
  * All the routes related to Auth are present here.
  * These are Publicly accessible routes.
- * */
+ */
 
 /**
  * This handler handles user signups.
  * send POST Request at /api/auth/signup
  * body contains {firstName, lastName, email, password}
- * */
-
+ */
 export const signupHandler = function (schema, request) {
   const { email, password, ...rest } = JSON.parse(request.requestBody);
   try {
-    // check if email already exists
     const foundUser = schema.users.findBy({ email });
     if (foundUser) {
       return new Response(
         422,
         {},
-        {
-          errors: ["Unprocessable Entity. Email Already Exists."],
-        }
+        { errors: ["Unprocessable Entity. Email Already Exists."] }
       );
     }
     const _id = uuid();
@@ -39,16 +36,10 @@ export const signupHandler = function (schema, request) {
       wishlist: [],
     };
     const createdUser = schema.users.create(newUser);
-    const encodedToken = sign({ _id, email }, process.env.REACT_APP_JWT_SECRET);
+    const encodedToken = sign({ _id, email }, MOCK_JWT_KEY);
     return new Response(201, {}, { createdUser, encodedToken });
   } catch (error) {
-    return new Response(
-      500,
-      {},
-      {
-        error,
-      }
-    );
+    return new Response(500, {}, { error: "Internal server error" });
   }
 };
 
@@ -56,8 +47,7 @@ export const signupHandler = function (schema, request) {
  * This handler handles user login.
  * send POST Request at /api/auth/login
  * body contains {email, password}
- * */
-
+ */
 export const loginHandler = function (schema, request) {
   const { email, password } = JSON.parse(request.requestBody);
   try {
@@ -66,13 +56,13 @@ export const loginHandler = function (schema, request) {
       return new Response(
         404,
         {},
-        { errors: ["The email you entered is not Registered. Not Found error"] }
+        { errors: ["The email you entered is not registered."] }
       );
     }
     if (password === foundUser.password) {
       const encodedToken = sign(
         { _id: foundUser._id, email },
-        process.env.REACT_APP_JWT_SECRET
+        MOCK_JWT_KEY
       );
       foundUser.password = undefined;
       return new Response(200, {}, { foundUser, encodedToken });
@@ -80,19 +70,9 @@ export const loginHandler = function (schema, request) {
     return new Response(
       401,
       {},
-      {
-        errors: [
-          "The credentials you entered are invalid. Unauthorized access error.",
-        ],
-      }
+      { errors: ["Invalid credentials. Please try again."] }
     );
   } catch (error) {
-    return new Response(
-      500,
-      {},
-      {
-        error,
-      }
-    );
+    return new Response(500, {}, { error: "Internal server error" });
   }
 };

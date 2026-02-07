@@ -1,16 +1,11 @@
-.signup p{
-    margin:0
+.signup p {
+  @apply m-0;
 }
 
-.signup{
-    margin: auto;
-    padding: 0 1rem 7rem 1rem;
-    max-width: 25rem;
-    
+.signup {
+  @apply mx-auto max-w-md px-4 pb-28 pt-8;
 }
 
-.signup .signup-button{
-    margin: 1rem 0;
-    display: block;
-    width: 80%;
+.signup .signup-button {
+  @apply my-4 block w-full;
 }

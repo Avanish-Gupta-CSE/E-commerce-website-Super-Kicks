@@ -1,0 +1,52 @@
+---
+description: React component and hook patterns for Super Kicks
+globs: "**/*.tsx,**/*.jsx"
+alwaysApply: false
+---
+
+# React Best Practices
+
+## Components
+- Use functional components only -- no class components
+- Export named exports (not default) for components
+- Keep components under 150 lines; extract sub-components if larger
+- Use `React.lazy()` + `Suspense` for route-level code splitting
+
+## Hooks
+- Memoize expensive computations with `useMemo`
+- Wrap handler functions passed as props with `useCallback`
+- Extract reusable logic into custom hooks (`useDebounce`, `useLocalStorage`, etc.)
+- Never call hooks conditionally
+
+## Context
+- Memoize context values to prevent unnecessary re-renders:
+
+```tsx
+// BAD -- creates new object every render
+return <Ctx.Provider value={{ cart, addToCart }}>{children}</Ctx.Provider>;
+
+// GOOD -- memoized value
+const value = useMemo(() => ({ cart, addToCart }), [cart, addToCart]);
+return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+```
+
+- Split large contexts by concern (auth, cart, products, UI)
+
+## State
+- Keep state as close to where it's used as possible
+- Derive values instead of storing redundant state
+- Use `useReducer` for complex state logic with multiple sub-values
+
+## Events
+- Name handlers `handleAction` (e.g., `handleSubmit`, `handleRemoveItem`)
+- Always prevent default on form submissions
+- Debounce search/filter inputs (300ms minimum)
+
+## Error Boundaries
+- Wrap route-level components with Error Boundaries
+- Provide a user-friendly fallback UI
+
+## Performance
+- Add `loading="lazy"` to all images below the fold
+- Use `React.memo` for components receiving stable props in lists
+- Avoid inline object/array creation in JSX props

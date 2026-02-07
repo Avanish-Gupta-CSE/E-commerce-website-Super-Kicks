@@ -1,0 +1,48 @@
+---
+description: General clean code principles for the Super Kicks project
+alwaysApply: true
+---
+
+# Clean Code Principles
+
+## Naming
+- Use descriptive, intention-revealing names for variables, functions, and files
+- Boolean variables start with `is`, `has`, `should`, `can` (e.g., `isLoading`, `hasDiscount`)
+- Event handlers use `handle` prefix (e.g., `handleAddToCart`)
+- Functions that return data use `get` or `fetch` prefix
+- Constants use UPPER_SNAKE_CASE (e.g., `MAX_CART_ITEMS`, `API_BASE_URL`)
+
+## Constants
+- No magic numbers or strings -- extract to named constants
+- Keep constants in a dedicated `src/lib/constants.ts` file or colocated with the module
+
+## Functions
+- Each function does exactly one thing
+- Keep functions under 30 lines; extract helpers if longer
+- Prefer pure functions where possible
+- Always handle errors explicitly -- never silently catch
+
+## File Structure
+- One component per file
+- Colocate tests with source files (`Component.tsx` + `Component.test.tsx`)
+- Group by feature, not by type, inside `src/`
+- Keep imports ordered: external libs > absolute paths > relative paths
+
+## Error Handling
+
+```typescript
+// BAD -- silent failure
+try { await fetchProducts(); } catch (e) { console.log(e); }
+
+// GOOD -- user-facing error + logging
+try {
+  await fetchProducts();
+} catch (error) {
+  console.error('[ProductService] Failed to fetch products:', error);
+  throw new Error('Unable to load products. Please try again.');
+}
+```
+
+## No Debug Code in Commits
+- Remove all `console.log` before committing
+- Use a proper logger utility if logging is needed

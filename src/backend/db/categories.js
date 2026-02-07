@@ -10,7 +10,7 @@ export const categories = [
         _id: uuid(),
         categoryName: "Sneakers",
         description:
-            "literature in the form of prose, especially novels, that describes imaginary events and people",
+            "Classic and modern sneakers from top brands for everyday style.",
         image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
     },
     {

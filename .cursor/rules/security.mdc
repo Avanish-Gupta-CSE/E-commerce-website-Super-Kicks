@@ -1,0 +1,50 @@
+---
+description: Security practices for Super Kicks
+alwaysApply: true
+---
+
+# Security Rules
+
+## Secrets
+- Never commit API keys, tokens, passwords, or secrets to the repository
+- Use environment variables (`VITE_*` prefix for Vite) for configuration
+- Add `.env` files to `.gitignore`
+- Never log secrets or tokens, even in development
+
+## Authentication
+- Never store JWT tokens in `localStorage` (XSS vulnerable)
+- Use httpOnly cookies or secure backend-managed sessions
+- Never expose JWT secrets to the frontend
+- Implement proper session expiration and refresh token rotation
+- Always hash passwords on the server (bcrypt, argon2)
+
+## Input Handling
+- Validate all user inputs on both client and server
+- Sanitize inputs before rendering (prevent XSS)
+- Use parameterized queries for database access (prevent SQL injection)
+- Validate file uploads (type, size, content)
+
+## API Security
+- Authenticate all private API endpoints
+- Implement rate limiting on auth endpoints (login, signup, password reset)
+- Return generic error messages to the client (don't leak internal details)
+- Use HTTPS in production
+- Set proper CORS headers
+
+## Frontend
+- Never trust client-side validation alone -- always validate on server
+- Never expose sensitive data in the browser (Redux DevTools, console, network tab)
+- Use Content Security Policy (CSP) headers
+- Sanitize data before rendering to DOM
+
+```typescript
+// BAD -- exposing secret in frontend
+const JWT_SECRET = 'my-secret-key';
+
+// GOOD -- secret stays on server, frontend only receives token
+const response = await fetch('/api/auth/login', {
+  method: 'POST',
+  body: JSON.stringify({ email, password }),
+});
+const { token } = await response.json();
+```

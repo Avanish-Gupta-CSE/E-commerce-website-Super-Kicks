@@ -29,7 +29,7 @@ export const ProductDetails = () => {
     } = product;
     return (
         <div className="product-details">
-            <img src={productImage} alt="productImage" />
+            <img src={productImage} alt={`${productName} - ${color} ${categoryName}`} loading="lazy" />
             <div className="details">
                 <h1>{productName}</h1>
                 <p>

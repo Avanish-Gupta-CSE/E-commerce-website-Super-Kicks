@@ -206,7 +206,6 @@ const Checkout = () => {
                 <button
                     className="button"
                     onClick={() => {
-                        console.log(Object.keys(selectedAddress));
                         if (Object.keys(selectedAddress).length === 0) {
                             fillAddressNotify();
                         } else {

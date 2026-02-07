@@ -1,28 +1,15 @@
-.login{
-    padding: 0 1rem;
-    max-width: 25rem;
-    margin: 0 auto;
-    
+.login {
+  @apply mx-auto max-w-md px-4 py-8;
 }
 
-.light-link{
-    text-decoration: none;
-    margin-left: 1rem;
-    color: #7b7b7b;
-    font-size: initial;
+.light-link {
+  @apply ml-4 text-sm text-muted no-underline hover:text-accent;
 }
 
-.login-button{
-    display: block;
-    width: 80%;
+.login-button {
+  @apply block w-full;
 }
 
-.test{
-    border: none;
-    border: 1px solid var(--primary);
-    border-radius: .2rem;
-    cursor: pointer;
-    margin-left: 1rem;
-    background-color: var(--secondary);
-    padding: .2rem 1rem;
+.test {
+  @apply ml-4 cursor-pointer rounded-md border border-primary bg-secondary px-4 py-1 text-sm transition-colors hover:bg-primary hover:text-primary-foreground;
 }

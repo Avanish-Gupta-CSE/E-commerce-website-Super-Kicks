@@ -1,57 +1,34 @@
 .home {
-    text-align: center;
-    background-color: #FAEDCD;
+  @apply text-center;
 }
 
 .home .category-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+  @apply h-24 w-24 rounded-full object-cover shadow-card transition-transform hover:scale-105;
 }
 
 .home .container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 0;
-    padding-bottom: 4rem;
+  @apply mb-0 flex flex-wrap justify-center gap-4 pb-16;
 }
 
 .home .card {
-    list-style: none;
-    margin: 1rem;
+  @apply flex list-none flex-col items-center gap-2;
 }
 
 .home .main-card {
-    margin: 0;
-    width: 100%;
-    height: 500px;
-    /* background-image: url("https://wallpaperaccess.com/full/680070.jpg"); */
-    background-image: url("https://www.woodlandworldwide.com/_next/image?url=https%3A%2F%2Fwoodland-dev-storage134048-dev.s3.ap-south-1.amazonaws.com%2FImages%2Fwdl_shoe_banner.png&w=1920&q=75");
-    position: relative;
-    background-size: cover;
-    background-position: center;
+  @apply relative m-0 h-[500px] w-full bg-cover bg-center;
+  background-image: url("https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1920&q=80");
 }
 
 .home .main-card a {
-    color: #FAEDCD;
-    text-decoration: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: xx-large;
-    padding: 0.5rem;
-    background-color: rgb(48, 50, 51,.8);
+  @apply absolute inset-x-0 bottom-0 bg-primary/80 px-4 py-3 text-2xl font-bold text-primary-foreground no-underline backdrop-blur-sm transition-all hover:bg-primary/90;
 }
 
 .home img {
-    display: block;
-    margin: 0.5rem;
+  @apply mx-auto block;
 }
 
-@media (max-width: 786px) {
-    .home .main-card{
-        background-attachment: inherit;
-    }
+@media (max-width: 768px) {
+  .home .main-card {
+    @apply h-[300px];
+  }
 }

@@ -1,0 +1,51 @@
+---
+description: TypeScript coding standards for Super Kicks
+globs: "**/*.ts,**/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript Standards
+
+## Strictness
+- `strict: true` in `tsconfig.json` -- no exceptions
+- Never use `any` -- use `unknown` and narrow with type guards
+- Never use `@ts-ignore` or `@ts-expect-error` without a comment explaining why
+
+## Types vs Interfaces
+- Use `interface` for object shapes and component props
+- Use `type` for unions, intersections, and computed types
+- Export all shared types from `src/types/`
+
+## Naming
+- Interfaces: PascalCase, no `I` prefix (e.g., `Product`, not `IProduct`)
+- Type aliases: PascalCase (e.g., `CartItem`, `FilterState`)
+- Enums: PascalCase with PascalCase members (prefer string unions over enums)
+- Generics: descriptive names (`TProduct`, `TResponse`)
+
+## Patterns
+
+```typescript
+// Define explicit return types for exported functions
+export function calculateDiscount(price: number, percent: number): number {
+  return price * (1 - percent / 100);
+}
+
+// Use discriminated unions for state
+type AsyncState<T> =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; error: string };
+
+// Prefer string unions over enums
+type Category = 'Sneakers' | 'Running' | 'Sports' | 'Casual';
+```
+
+## Null Safety
+- Use optional chaining (`?.`) and nullish coalescing (`??`)
+- Avoid non-null assertions (`!`) -- handle null cases explicitly
+- Mark optional properties with `?` in interfaces
+
+## API Types
+- Define request and response types for every API endpoint
+- Use Zod or similar for runtime validation of API responses

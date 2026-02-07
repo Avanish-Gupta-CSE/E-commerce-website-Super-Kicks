@@ -1,91 +1,65 @@
 .cart-container {
-    margin-left: 1rem;
-    padding-bottom: 6rem;
-
+  @apply mx-auto max-w-5xl px-4 pb-24;
 }
 
 .cart {
-    display: flex;
-    padding-bottom: 2.5rem;
-    
-
+  @apply flex gap-6 pb-10;
 }
 
 .cart .heading {
-    width: 15rem;
+  @apply w-60 font-semibold;
 }
 
 .cart .cart-list {
-    width: 70%;
-    margin-right: 1rem;
+  @apply mr-4 w-[70%];
 }
 
 .cart .flex-container {
-    display: flex;
-    justify-content: space-between;
+  @apply flex items-center justify-between;
 }
 
 .cart .flex-container-2 {
-    display: flex;
-    margin-right: 4rem;
+  @apply mr-4 flex items-start;
 }
 
 .cart .bill {
-    font-size: large;
+  @apply rounded-xl bg-white p-6 text-base shadow-card;
 }
 
 .cart .cart-item {
-    display: flex;
-    flex-direction: row;
-    padding: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.cart .product-container {
-    border: 1px solid var(--primary);
+  @apply mb-3 flex flex-row rounded-xl bg-white p-4 shadow-card transition-all hover:shadow-card-hover;
 }
 
 .cart .cart-item img {
-    width: 10rem;
+  @apply w-32 rounded-lg object-cover;
 }
 
 .cart .price {
-    text-decoration: line-through;
-    color: lightgray;
+  @apply text-gray-400 line-through;
 }
 
 .cart .decrease-button {
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: large;
-    border: 1px solid var(--primary);
-    margin: 0 0.5rem;
-    border-radius: 50%;
-    background-color: var(--primary);
-    color: var(--secondary);
-    cursor: pointer;
-    display: inline-flex;
-    justify-content: center;
+  @apply inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-primary bg-primary text-sm font-bold text-primary-foreground transition-all hover:bg-primary-light;
 }
 
-@media (max-width: 786px) {
-    .desktop {
-        display: none;
-    }
-    .cart {
-        flex-direction: column;
-    }
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
 
-    .cart .heart-icon {
-        margin-left: 1rem;
-    }
+  .cart {
+    @apply flex-col;
+  }
 
-    .cart .cart-item {
-        flex-direction: column;
-        width: 110%;
-    }
+  .cart .cart-list {
+    @apply w-full;
+  }
 
-    .cart .flex-container {
-        justify-content: flex-start;
-    }
+  .cart .cart-item {
+    @apply w-full flex-col;
+  }
+
+  .cart .flex-container {
+    @apply justify-start;
+  }
 }

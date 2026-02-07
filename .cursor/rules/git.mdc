@@ -1,0 +1,48 @@
+---
+description: Git workflow and commit conventions for Super Kicks
+alwaysApply: true
+---
+
+# Git Conventions
+
+## Commit Messages
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+```
+
+### Types
+- `feat`: New feature
+- `fix`: Bug fix
+- `refactor`: Code change that neither fixes a bug nor adds a feature
+- `style`: Formatting, missing semicolons, etc. (no code logic change)
+- `docs`: Documentation only
+- `test`: Adding or updating tests
+- `chore`: Build process, dependency updates, tooling
+- `perf`: Performance improvement
+
+### Examples
+```
+feat(cart): add coupon code input to cart page
+fix(auth): resolve token expiration not redirecting to login
+refactor(products): memoize filter computation in DataProvider
+chore: migrate from CRA to Vite
+test(checkout): add integration tests for checkout flow
+```
+
+## Branches
+- `main` -- production-ready code
+- `feat/<name>` -- new features (e.g., `feat/order-history`)
+- `fix/<name>` -- bug fixes (e.g., `fix/cart-quantity-bug`)
+- `refactor/<name>` -- refactoring (e.g., `refactor/typescript-migration`)
+- `chore/<name>` -- tooling, deps (e.g., `chore/vite-migration`)
+
+## Rules
+- Never commit directly to `main` -- use feature branches
+- Keep commits small and focused (one logical change per commit)
+- Do not commit `.env` files, secrets, or API keys
+- Do not commit `node_modules/`, `dist/`, or build artifacts
+- Run linting and tests before pushing

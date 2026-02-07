@@ -4,37 +4,30 @@ import { useLoginContext } from "../contexts/LoginProvider";
 import { toast } from "react-toastify";
 
 export const AddToCartButton = ({ product }) => {
-    const loginNotify = () => toast("Please Login First");
+  const { login } = useLoginContext();
+  const { isItemPresentInCartHandler, addToCartHandler } = useCartContext();
 
-    const { login } = useLoginContext();
-    const { isItemPresentInCartHandler, addToCartHandler } = useCartContext();
-    let counter = 0;
-    const notify = () => toast("Added to Cart");
-    return !isItemPresentInCartHandler(product) ? (
-        <button
-            disabled={product.outOfStock}
-            style={{
-                backgroundColor: product.outOfStock ? "#abadaf" : "",
-                cursor: product.outOfStock ? "no-drop" : "pointer",
-                }}
-            className="button"
-            onClick={() => {
-                if (login) {
-                    counter++;
-                    if (counter === 1) {
-                        notify();
-                        return addToCartHandler(product);
-                    }
-                } else {
-                    loginNotify();
-                }
-            }}
-        >
-            Add to cart
-        </button>
-    ) : (
-        <>
-            <Link className="button" to={"/cart"}>Go to Cart</Link>
-        </>
-    );
+  const handleAddToCart = () => {
+    if (login) {
+      toast.success("Added to Cart");
+      addToCartHandler(product);
+    } else {
+      toast.warn("Please login first");
+    }
+  };
+
+  return !isItemPresentInCartHandler(product) ? (
+    <button
+      disabled={product.outOfStock}
+      className={`button ${product.outOfStock ? "cursor-not-allowed opacity-50" : ""}`}
+      onClick={handleAddToCart}
+      aria-label={`Add ${product.productName} to cart`}
+    >
+      Add to Cart
+    </button>
+  ) : (
+    <Link className="button" to="/cart" aria-label="Go to cart">
+      Go to Cart
+    </Link>
+  );
 };

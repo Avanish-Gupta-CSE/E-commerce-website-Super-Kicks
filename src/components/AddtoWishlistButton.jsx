@@ -1,49 +1,45 @@
 import { toast } from "react-toastify";
 import { useCartContext } from "../contexts/CartProvider";
 import { useLoginContext } from "../contexts/LoginProvider";
-import { AiOutlineHeart } from "react-icons/ai";
-import { AiFillHeart } from "react-icons/ai";
-
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export const AddToWishlistButton = ({ product, details }) => {
-    const loginNotify = () => toast("Please Login First");
+  const {
+    isItemPresentInWishlistHandler,
+    addToWishlistHandler,
+    removeFromWishlistHandler,
+  } = useCartContext();
+  const { login } = useLoginContext();
 
-    const {
-        isItemPresentinWishlistHandler,
-        addToWishlistHandler,
-        removeFromWishlistHandler,
-    } = useCartContext();
-    const { login } = useLoginContext();
-    let wishlistCounter = 0;
-    const notify = () => toast("Added to Wishlist");
-    const removedNotify = () => toast("Removed from Wishlist");
+  const handleAdd = () => {
+    if (login) {
+      toast.success("Added to Wishlist");
+      addToWishlistHandler(product);
+    } else {
+      toast.warn("Please login first");
+    }
+  };
 
+  const handleRemove = () => {
+    toast.info("Removed from Wishlist");
+    removeFromWishlistHandler(product._id);
+  };
 
-    return !isItemPresentinWishlistHandler(product) ? (
-        <button
-        className={details ? "button" : "heart-icon"}
-            onClick={() => {
-                if (login) {
-                    wishlistCounter++;
-                    if (wishlistCounter === 1) {
-                        notify();
-                        return addToWishlistHandler(product);
-                    }
-                } else {
-                    loginNotify();
-                }
-            }}
-        >
-            {details ? "Add to wishlist" : <AiOutlineHeart/>}
-        </button>
-    ) : (
-        <button
-        className={details ? "button" : "heart-icon"}
-         onClick={() => {
-            removedNotify();
-            removeFromWishlistHandler(product._id)
-            }}>
-            {details ? "Remove from Wishlist" : <AiFillHeart/>}
-        </button>
-    );
+  return !isItemPresentInWishlistHandler(product) ? (
+    <button
+      className={details ? "button" : "heart-icon"}
+      onClick={handleAdd}
+      aria-label={`Add ${product.productName} to wishlist`}
+    >
+      {details ? "Add to Wishlist" : <AiOutlineHeart />}
+    </button>
+  ) : (
+    <button
+      className={details ? "button" : "heart-icon"}
+      onClick={handleRemove}
+      aria-label={`Remove ${product.productName} from wishlist`}
+    >
+      {details ? "Remove from Wishlist" : <AiFillHeart />}
+    </button>
+  );
 };

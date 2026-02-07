@@ -97,9 +97,7 @@ export const Cart = () => {
                     })}
                 </ul>
                 <div className="bill">
-                    <p>
-                        <h2>Price Details</h2>
-                    </p>
+                    <h2>Price Details</h2>
                     <p><strong>No of items:</strong> {items}</p>
                     <p><strong>Total Price:</strong> ${totalPrice}</p>
                     <p><strong>Discount:</strong> ${totalDiscount}</p>

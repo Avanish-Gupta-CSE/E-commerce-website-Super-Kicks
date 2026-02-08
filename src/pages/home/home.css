@@ -1,57 +1,136 @@
 .home {
-    text-align: center;
-    background-color: #FAEDCD;
+  @apply text-center;
 }
 
-.home .category-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+/* ── Hero ── */
+.hero {
+  @apply relative flex h-[560px] w-full items-end bg-cover bg-center;
+  background-image: url("https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1920&q=80");
 }
 
-.home .container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 0;
-    padding-bottom: 4rem;
+.hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent;
 }
 
-.home .card {
-    list-style: none;
-    margin: 1rem;
+.hero-content {
+  @apply relative z-[1] w-full max-w-3xl px-8 pb-16 text-left md:px-16;
 }
 
-.home .main-card {
-    margin: 0;
-    width: 100%;
-    height: 500px;
-    /* background-image: url("https://wallpaperaccess.com/full/680070.jpg"); */
-    background-image: url("https://www.woodlandworldwide.com/_next/image?url=https%3A%2F%2Fwoodland-dev-storage134048-dev.s3.ap-south-1.amazonaws.com%2FImages%2Fwdl_shoe_banner.png&w=1920&q=75");
-    position: relative;
-    background-size: cover;
-    background-position: center;
+.hero-badge {
+  @apply mb-4 inline-block rounded-full bg-accent/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white;
 }
 
-.home .main-card a {
-    color: #FAEDCD;
-    text-decoration: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: xx-large;
-    padding: 0.5rem;
-    background-color: rgb(48, 50, 51,.8);
+.hero-title {
+  @apply mb-3 text-4xl font-extrabold leading-tight text-white md:text-6xl;
 }
 
-.home img {
-    display: block;
-    margin: 0.5rem;
+.hero-subtitle {
+  @apply mb-8 max-w-lg text-base leading-relaxed text-white/75 md:text-lg;
 }
 
-@media (max-width: 786px) {
-    .home .main-card{
-        background-attachment: inherit;
-    }
+.hero-cta {
+  @apply flex flex-wrap gap-3;
+}
+
+.hero-button-primary {
+  @apply border-accent bg-accent px-8 py-3 text-base font-bold text-white hover:bg-accent-dark;
+}
+
+.hero-button-secondary {
+  @apply border-white/30 bg-white/10 px-8 py-3 text-base font-bold text-white backdrop-blur-sm hover:bg-white/20;
+}
+
+/* ── Sections ── */
+.home-section {
+  @apply px-6 py-14 md:px-12;
+}
+
+.section-header {
+  @apply mb-10;
+}
+
+.section-title {
+  @apply mb-1 text-2xl font-bold text-primary md:text-3xl;
+}
+
+.section-subtitle {
+  @apply text-sm text-muted md:text-base;
+}
+
+.section-cta {
+  @apply mt-8;
+}
+
+/* ── Categories ── */
+.category-grid {
+  @apply flex flex-wrap justify-center gap-6 p-0 md:gap-10;
+}
+
+.category-card {
+  @apply list-none;
+}
+
+.category-button {
+  @apply flex cursor-pointer flex-col items-center gap-3 border-none bg-transparent p-0 transition-transform hover:-translate-y-1;
+}
+
+.category-img {
+  @apply h-28 w-28 rounded-full border-4 border-white object-cover shadow-card transition-all hover:shadow-card-hover md:h-32 md:w-32;
+}
+
+.category-name {
+  @apply text-sm font-semibold text-primary;
+}
+
+/* ── Products Grid ── */
+.product-grid {
+  @apply flex flex-wrap justify-center gap-5 p-0;
+}
+
+/* ── Trending ── */
+.trending-section {
+  @apply bg-white;
+}
+
+/* ── Trust Badges ── */
+.trust-section {
+  @apply border-t border-gray-100 px-6 py-14 md:px-12;
+}
+
+.trust-grid {
+  @apply mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3;
+}
+
+.trust-card {
+  @apply flex flex-col items-center gap-2 text-center;
+}
+
+.trust-icon {
+  @apply mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent;
+}
+
+.trust-title {
+  @apply text-base font-semibold text-primary;
+}
+
+.trust-text {
+  @apply text-sm text-muted;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    @apply h-[400px];
+  }
+
+  .hero-content {
+    @apply px-6 pb-10;
+  }
+
+  .hero-title {
+    @apply text-3xl;
+  }
+
+  .home-section {
+    @apply px-4 py-10;
+  }
 }

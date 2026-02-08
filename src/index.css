@@ -1,15 +1,135 @@
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply m-0 font-sans antialiased;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  * {
+    @apply box-border;
+  }
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+@layer components {
+  /* ── Buttons ── */
+  .button {
+    @apply inline-block cursor-pointer rounded-lg border border-primary bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground no-underline shadow-sm transition-all hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-accent/30 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .button-secondary {
+    @apply inline-block cursor-pointer rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-semibold text-primary no-underline shadow-sm transition-all hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-accent/30 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .button-google {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-semibold text-gray-700 no-underline shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent/30 active:scale-[0.98];
+  }
+
+  .button-text {
+    @apply cursor-pointer border-none bg-transparent px-1 py-0.5 text-sm font-medium text-muted no-underline transition-colors hover:text-accent focus:outline-none;
+  }
+
+  .button-danger {
+    @apply inline-block cursor-pointer rounded-lg border border-danger bg-danger px-4 py-2 text-center text-sm font-semibold text-white no-underline shadow-sm transition-all hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-danger/30 active:scale-[0.98];
+  }
+
+  /* ── Form Elements ── */
+  .input-field {
+    @apply w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm transition-all placeholder:text-gray-400 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+  }
+
+  .input-group {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .input-group label {
+    @apply text-sm font-semibold text-primary;
+  }
+
+  .password-wrapper {
+    @apply relative flex items-center;
+  }
+
+  .password-wrapper .input-field {
+    @apply pr-16;
+  }
+
+  .toggle-password {
+    @apply absolute right-3 cursor-pointer border-none bg-transparent text-xs font-semibold uppercase tracking-wide text-muted transition-colors hover:text-accent focus:outline-none;
+  }
+
+  /* ── Auth Page Layout ── */
+  .auth-container {
+    @apply flex min-h-[calc(100vh-10rem)] items-start justify-center px-4 py-12;
+  }
+
+  .form-card {
+    @apply w-full max-w-md rounded-2xl bg-white p-8 shadow-card animate-fade-in;
+  }
+
+  .form-card h1 {
+    @apply mb-6 text-center text-2xl font-bold text-primary;
+  }
+
+  .form-divider {
+    @apply my-5 flex items-center gap-3 text-xs uppercase tracking-wider text-muted;
+  }
+
+  .form-divider::before,
+  .form-divider::after {
+    @apply h-px flex-1 bg-gray-200;
+    content: "";
+  }
+
+  .form-footer {
+    @apply mt-6 text-center text-sm text-muted;
+  }
+
+  .form-footer a {
+    @apply font-semibold text-accent no-underline transition-colors hover:text-accent-dark;
+  }
+
+  /* ── Navigation ── */
+  .heading-link {
+    @apply text-xl font-normal text-primary no-underline hover:text-black;
+  }
+
+  .text-link {
+    @apply text-primary no-underline transition-colors hover:text-accent;
+  }
+
+  .basic-link {
+    @apply text-accent underline hover:text-accent-dark;
+  }
+
+  /* ── Product Indicators ── */
+  .star {
+    @apply relative top-0.5 pl-0.5 text-lg text-yellow-400;
+  }
+
+  .heart-icon {
+    @apply ml-auto flex cursor-pointer border-none bg-none text-xl text-red-500 transition-transform hover:scale-110;
+  }
+
+  .out-of-stock {
+    @apply text-muted-light;
+  }
+
+  .cut-price {
+    @apply text-gray-400 line-through;
+  }
+
+  .cross-button {
+    @apply cursor-pointer border-none bg-none text-lg font-bold text-primary transition-colors hover:text-accent;
+  }
+
+  .show-button {
+    @apply cursor-pointer border-none bg-inherit text-xl;
+  }
+
+  .loading-div {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm;
+  }
 }
-
-

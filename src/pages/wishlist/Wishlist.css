@@ -1,7 +1,34 @@
-.wishlist{
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 5rem;
-    justify-content: flex-start;
-    
+.wishlist-container {
+  @apply mx-auto max-w-5xl px-4 py-8;
+}
+
+.wishlist-title {
+  @apply mb-6 text-2xl font-bold text-primary;
+}
+
+.wishlist-grid {
+  @apply flex flex-wrap justify-start gap-5 p-0;
+}
+
+/* ── Empty State ── */
+.wishlist-empty {
+  @apply flex min-h-[50vh] flex-col items-center justify-center px-4 text-center;
+}
+
+.wishlist-empty-icon {
+  @apply mb-4 text-gray-300;
+}
+
+.wishlist-empty-title {
+  @apply mb-2 text-2xl font-bold text-primary;
+}
+
+.wishlist-empty-text {
+  @apply mb-6 text-muted;
+}
+
+@media (max-width: 768px) {
+  .wishlist-grid {
+    @apply justify-center;
+  }
 }

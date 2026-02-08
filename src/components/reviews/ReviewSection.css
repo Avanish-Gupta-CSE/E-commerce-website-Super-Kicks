@@ -1,0 +1,87 @@
+.review-section {
+  @apply mt-10 border-t border-gray-200 pt-6;
+}
+
+.review-section h2 {
+  @apply mb-4 text-lg font-semibold;
+}
+
+.average-rating {
+  @apply text-sm font-normal text-warning;
+}
+
+.review-form {
+  @apply mb-6 rounded-lg bg-secondary p-5;
+}
+
+.star-rating {
+  @apply mb-3 flex items-center gap-2;
+}
+
+.star-rating label {
+  @apply text-sm font-semibold;
+}
+
+.stars {
+  @apply flex gap-0.5;
+}
+
+.star-button {
+  @apply cursor-pointer border-none bg-none p-0 text-2xl leading-none text-gray-300 transition-colors;
+}
+
+.star-button.active {
+  @apply text-warning;
+}
+
+.review-textarea {
+  @apply mb-3 box-border w-full resize-y rounded-lg border border-gray-300 p-3 font-sans text-sm transition-all placeholder:text-gray-400 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+}
+
+.review-submit {
+  @apply text-sm;
+}
+
+.login-prompt {
+  @apply mb-4 text-sm italic text-muted;
+}
+
+.no-reviews {
+  @apply text-sm text-muted;
+}
+
+.reviews-list {
+  @apply flex list-none flex-col gap-4 p-0;
+}
+
+.review-card {
+  @apply rounded-lg border border-gray-200 p-4 transition-all hover:shadow-card;
+}
+
+.review-header {
+  @apply mb-2 flex items-start justify-between;
+}
+
+.review-author {
+  @apply flex flex-col gap-0.5;
+}
+
+.review-author strong {
+  @apply text-sm text-primary;
+}
+
+.review-stars {
+  @apply text-sm text-warning;
+}
+
+.review-date {
+  @apply text-xs text-muted-light;
+}
+
+.review-comment {
+  @apply text-sm leading-relaxed text-gray-700;
+}
+
+.review-delete {
+  @apply mt-2 cursor-pointer border-none bg-none p-0 text-xs text-danger transition-colors hover:underline;
+}

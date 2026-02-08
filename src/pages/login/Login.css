@@ -1,28 +1,19 @@
-.login{
-    padding: 0 1rem;
-    max-width: 25rem;
-    margin: 0 auto;
-    
+.login-fields {
+  @apply flex flex-col gap-4;
 }
 
-.light-link{
-    text-decoration: none;
-    margin-left: 1rem;
-    color: #7b7b7b;
-    font-size: initial;
+.login-actions {
+  @apply mt-2 flex flex-col gap-3;
 }
 
-.login-button{
-    display: block;
-    width: 80%;
+.login-button {
+  @apply block w-full;
 }
 
-.test{
-    border: none;
-    border: 1px solid var(--primary);
-    border-radius: .2rem;
-    cursor: pointer;
-    margin-left: 1rem;
-    background-color: var(--secondary);
-    padding: .2rem 1rem;
+.login-forgot {
+  @apply mt-3 text-center;
+}
+
+.reset-form {
+  @apply mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-secondary p-4 animate-slide-down;
 }

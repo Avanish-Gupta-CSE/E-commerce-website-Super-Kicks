@@ -1,0 +1,51 @@
+.profile-container {
+  @apply mx-auto max-w-2xl px-4 py-8;
+}
+
+.profile-container h1 {
+  @apply mb-6 text-2xl font-bold text-primary;
+}
+
+.profile-section {
+  @apply mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-card;
+}
+
+.profile-section h2 {
+  @apply mb-3 text-lg font-semibold text-primary;
+}
+
+.profile-info p {
+  @apply my-1.5 text-sm text-gray-600;
+}
+
+.profile-info p strong {
+  @apply text-primary;
+}
+
+.profile-info .button {
+  @apply mt-4;
+}
+
+.profile-edit-form {
+  @apply flex flex-col gap-4;
+}
+
+.profile-edit-form input {
+  @apply w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm transition-all placeholder:text-gray-400 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+}
+
+.profile-edit-actions {
+  @apply flex gap-3;
+}
+
+.profile-addresses {
+  @apply flex list-none flex-col gap-3 p-0;
+}
+
+.profile-address-card {
+  @apply flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-all hover:shadow-card;
+}
+
+.profile-address-card p {
+  @apply my-0.5 text-sm text-gray-600;
+}

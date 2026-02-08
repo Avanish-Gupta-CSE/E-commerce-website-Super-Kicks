@@ -1,219 +1,177 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useMemo,
+  useCallback,
+} from "react";
+import { toast } from "react-toastify";
+import { useAuth } from "./AuthProvider";
+import * as cartApi from "../lib/api/cart";
 
 const CartContext = createContext();
+
 const reducerFunction = (state, action) => {
-    switch (action.type) {
-        case "setCart": {
-            return { ...state, cart: action.payload };
-        }
-        case "setWishlist": {
-            return { ...state, wishlist: action.payload };
-        }
-        default: {
-            return { ...state };
-        }
-    }
+  switch (action.type) {
+    case "setCart":
+      return { ...state, cart: action.payload };
+    default:
+      return state;
+  }
 };
 
 export const CartProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducerFunction, {
-        cart: [],
-        wishlist: [],
-    });
-    const fetchCartData = async () => {
-        try {
-            const res = await fetch("/api/user/cart", {
-                method: "GET",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-            });
-            if (res.status === 200) {
-                const { cart } = await res.json();
-                dispatch({ type: "setCart", payload: cart });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  const { isAuthenticated } = useAuth();
+  const [state, dispatch] = useReducer(reducerFunction, { cart: [] });
 
-    const fetchWishlistData = async () => {
-        try {
-            const res = await fetch("/api/user/wishlist", {
-                method: "GET",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-            });
-            if (res.status === 200) {
-                const { wishlist } = await res.json();
-                dispatch({ type: "setWishlist", payload: wishlist });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  const fetchCartData = useCallback(async () => {
+    if (!isAuthenticated) {
+      dispatch({ type: "setCart", payload: [] });
+      return;
+    }
+    try {
+      const cart = await cartApi.getCart();
+      dispatch({ type: "setCart", payload: cart });
+    } catch (error) {
+      console.error("[Cart] Failed to fetch cart:", error.message);
+    }
+  }, [isAuthenticated]);
 
-    useEffect(() => {
-        fetchCartData();
-        fetchWishlistData();
-    }, []);
-    const addToCartHandler = async (product) => {
-        try {
-            const res = await fetch("/api/user/cart", {
-                method: "POST",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-                body: JSON.stringify({ product }),
-            });
-            if (res.status === 201) {
-                const { cart } = await res.json();
-                dispatch({ type: "setCart", payload: cart });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  useEffect(() => {
+    fetchCartData();
+  }, [fetchCartData]);
 
-    const isItemPresentInCartHandler = (product) => {
-        return state.cart.find(({ _id }) => product._id === _id);
-    };
+  const addToCartHandler = useCallback(
+    async (product) => {
+      try {
+        await cartApi.addToCart(product._id);
+        await fetchCartData();
+      } catch (error) {
+        console.error("[Cart] Failed to add item:", error.message);
+        toast.error("Failed to add item to cart");
+      }
+    },
+    [fetchCartData]
+  );
 
-    const isItemPresentinWishlistHandler = (product) => {
-        return state.wishlist.find(({ _id }) => product._id === _id);
-    };
+  const isItemPresentInCartHandler = useCallback(
+    (product) => state.cart.find(({ _id }) => product._id === _id),
+    [state.cart]
+  );
 
-    const incQtyHandler = async (id) => {
-        try {
-            const bodySent = {
-                action: {
-                    type: "increment",
-                },
-            };
-            const res = await fetch(`/api/user/cart/${id}`, {
-                method: "POST",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-                body: JSON.stringify(bodySent),
-            });
-            if (res.status === 200) {
-                const { cart } = await res.json();
-                dispatch({ type: "setCart", payload: cart });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    const decQtyHandler = async (id) => {
-        try {
-            const bodySent = {
-                action: {
-                    type: "decrement",
-                },
-            };
-            const res = await fetch(`/api/user/cart/${id}`, {
-                method: "POST",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-                body: JSON.stringify(bodySent),
-            });
-            if (res.status === 200) {
-                const { cart } = await res.json();
-                dispatch({ type: "setCart", payload: cart });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  const incQtyHandler = useCallback(
+    async (product) => {
+      const item = state.cart.find(({ _id }) => _id === product._id);
+      if (!item) return;
+      try {
+        await cartApi.updateCartItem(item.cartItemId, item.qty + 1);
+        await fetchCartData();
+      } catch (error) {
+        console.error("[Cart] Failed to increment:", error.message);
+      }
+    },
+    [state.cart, fetchCartData]
+  );
 
-    const removeFromCartHandler = async (id) => {
-        try {
-            const res = await fetch(`/api/user/cart/${id}`, {
-                method: "DELETE",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-            });
-            if (res.status === 200) {
-                const { cart } = await res.json();
-                dispatch({ type: "setCart", payload: cart });
-            }
-        } catch (e) {
-            console.log(e);
+  const decQtyHandler = useCallback(
+    async (product) => {
+      const item = state.cart.find(({ _id }) => _id === product._id);
+      if (!item) return;
+      try {
+        if (item.qty <= 1) {
+          await cartApi.removeFromCart(item.cartItemId);
+        } else {
+          await cartApi.updateCartItem(item.cartItemId, item.qty - 1);
         }
-    };
+        await fetchCartData();
+      } catch (error) {
+        console.error("[Cart] Failed to decrement:", error.message);
+      }
+    },
+    [state.cart, fetchCartData]
+  );
 
-    const removeFromWishlistHandler = async (id) => {
-        try {
-            const res = await fetch(`/api/user/wishlist/${id}`, {
-                method: "DELETE",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-            });
-            if (res.status === 200) {
-                const { wishlist } = await res.json();
-                dispatch({ type: "setWishlist", payload: wishlist });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  const removeFromCartHandler = useCallback(
+    async (productId) => {
+      const item = state.cart.find(({ _id }) => _id === productId);
+      if (!item) return;
+      try {
+        await cartApi.removeFromCart(item.cartItemId);
+        await fetchCartData();
+      } catch (error) {
+        console.error("[Cart] Failed to remove item:", error.message);
+        toast.error("Failed to remove item from cart");
+      }
+    },
+    [state.cart, fetchCartData]
+  );
 
-    const addToWishlistHandler = async (product) => {
-        try {
-            const res = await fetch("/api/user/wishlist", {
-                method: "POST",
-                headers: {
-                    authorization: `${localStorage.getItem("encodedToken")}`,
-                },
-                body: JSON.stringify({ product }),
-            });
-            if (res.status === 201) {
-                const { wishlist } = await res.json();
-                dispatch({ type: "setWishlist", payload: wishlist });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    const items = state.cart.reduce((acc, { qty }) => acc + qty, 0);
-    const totalPrice = state.cart.reduce(
-        (acc, { price, qty }) => acc + price * qty,
-        0
-    );
-    const totalDiscount = state.cart.reduce(
+  const clearCartHandler = useCallback(async () => {
+    try {
+      await cartApi.clearCart();
+      dispatch({ type: "setCart", payload: [] });
+    } catch (error) {
+      console.error("[Cart] Failed to clear cart:", error.message);
+    }
+  }, []);
+
+  const items = useMemo(
+    () => state.cart.reduce((acc, { qty }) => acc + qty, 0),
+    [state.cart]
+  );
+
+  const totalPrice = useMemo(
+    () =>
+      state.cart.reduce((acc, { price, qty }) => acc + Number(price) * qty, 0),
+    [state.cart]
+  );
+
+  const totalDiscount = useMemo(
+    () =>
+      state.cart.reduce(
         (acc, { price, discountedPrice, qty }) =>
-            acc + (price - discountedPrice) * qty,
+          acc + (Number(price) - Number(discountedPrice)) * qty,
         0
-    );
-    const netPrice = totalPrice - totalDiscount;
+      ),
+    [state.cart]
+  );
 
-    return (
-        <CartContext.Provider
-            value={{
-                cart: state.cart,
-                addToCartHandler,
-                isItemPresentInCartHandler,
-                incQtyHandler,
-                decQtyHandler,
-                removeFromCartHandler,
-                wishlist: state.wishlist,
-                addToWishlistHandler,
-                isItemPresentinWishlistHandler,
-                removeFromWishlistHandler,
-                items,
-                totalPrice,
-                totalDiscount,
-                netPrice,
-            }}
-        >
-            {children}
-        </CartContext.Provider>
-    );
+  const netPrice = useMemo(
+    () => totalPrice - totalDiscount,
+    [totalPrice, totalDiscount]
+  );
+
+  const value = useMemo(
+    () => ({
+      cart: state.cart,
+      addToCartHandler,
+      isItemPresentInCartHandler,
+      incQtyHandler,
+      decQtyHandler,
+      removeFromCartHandler,
+      clearCartHandler,
+      items,
+      totalPrice,
+      totalDiscount,
+      netPrice,
+    }),
+    [
+      state.cart,
+      addToCartHandler,
+      isItemPresentInCartHandler,
+      incQtyHandler,
+      decQtyHandler,
+      removeFromCartHandler,
+      clearCartHandler,
+      items,
+      totalPrice,
+      totalDiscount,
+      netPrice,
+    ]
+  );
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export const useCartContext = () => useContext(CartContext);

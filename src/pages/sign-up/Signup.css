@@ -1,16 +1,17 @@
-.signup p{
-    margin:0
+.signup-fields {
+  @apply flex flex-col gap-4;
 }
 
-.signup{
-    margin: auto;
-    padding: 0 1rem 7rem 1rem;
-    max-width: 25rem;
-    
+.signup-name-row {
+  @apply grid grid-cols-2 gap-4;
 }
 
-.signup .signup-button{
-    margin: 1rem 0;
-    display: block;
-    width: 80%;
+.signup-button {
+  @apply mt-2 block w-full;
+}
+
+@media (max-width: 480px) {
+  .signup-name-row {
+    @apply grid-cols-1;
+  }
 }

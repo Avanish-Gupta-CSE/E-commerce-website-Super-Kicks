@@ -1,32 +1,15 @@
 .footer {
-    background-color:var(--primary);
-    color: var(--secondary);
-    padding: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  @apply mt-auto flex flex-col items-center gap-2 bg-primary py-8 text-center text-primary-foreground;
 }
 
-.footer .social-media{
-    display: flex;
-    width: 20%;
-    justify-content: space-evenly;
+.footer strong {
+  @apply text-xl font-bold;
 }
 
-.footer a{
-    color: var(--secondary);
-    text-decoration: none;
-    font-size: large;
+.social-media {
+  @apply flex gap-4 text-2xl;
 }
 
-@media(max-width : 786px){
-    .footer .social-media{
-        margin-top: 0rem;
-        width: 80%;
-        justify-content: space-around;
-    }
+.social-media a {
+  @apply text-primary-foreground/70 transition-colors hover:text-accent;
 }

@@ -1,15 +1,19 @@
-.login {
-  @apply mx-auto max-w-md px-4 py-8;
+.login-fields {
+  @apply flex flex-col gap-4;
 }
 
-.light-link {
-  @apply ml-4 text-sm text-muted no-underline hover:text-accent;
+.login-actions {
+  @apply mt-2 flex flex-col gap-3;
 }
 
 .login-button {
   @apply block w-full;
 }
 
-.test {
-  @apply ml-4 cursor-pointer rounded-md border border-primary bg-secondary px-4 py-1 text-sm transition-colors hover:bg-primary hover:text-primary-foreground;
+.login-forgot {
+  @apply mt-3 text-center;
+}
+
+.reset-form {
+  @apply mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-secondary p-4 animate-slide-down;
 }

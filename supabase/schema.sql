@@ -2,6 +2,13 @@
 -- Run this in the Supabase SQL editor to create all tables
 
 -- ============================================================
+-- GRANTS (ensure anon and authenticated roles can access public schema)
+-- ============================================================
+grant usage on schema public to anon, authenticated;
+grant select on all tables in schema public to anon;
+alter default privileges in schema public grant select on tables to anon;
+
+-- ============================================================
 -- PROFILES (extends Supabase auth.users)
 -- ============================================================
 create table if not exists public.profiles (

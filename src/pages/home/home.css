@@ -2,33 +2,135 @@
   @apply text-center;
 }
 
-.home .category-img {
-  @apply h-24 w-24 rounded-full object-cover shadow-card transition-transform hover:scale-105;
-}
-
-.home .container {
-  @apply mb-0 flex flex-wrap justify-center gap-4 pb-16;
-}
-
-.home .card {
-  @apply flex list-none flex-col items-center gap-2;
-}
-
-.home .main-card {
-  @apply relative m-0 h-[500px] w-full bg-cover bg-center;
+/* ── Hero ── */
+.hero {
+  @apply relative flex h-[560px] w-full items-end bg-cover bg-center;
   background-image: url("https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1920&q=80");
 }
 
-.home .main-card a {
-  @apply absolute inset-x-0 bottom-0 bg-primary/80 px-4 py-3 text-2xl font-bold text-primary-foreground no-underline backdrop-blur-sm transition-all hover:bg-primary/90;
+.hero-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent;
 }
 
-.home img {
-  @apply mx-auto block;
+.hero-content {
+  @apply relative z-[1] w-full max-w-3xl px-8 pb-16 text-left md:px-16;
+}
+
+.hero-badge {
+  @apply mb-4 inline-block rounded-full bg-accent/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white;
+}
+
+.hero-title {
+  @apply mb-3 text-4xl font-extrabold leading-tight text-white md:text-6xl;
+}
+
+.hero-subtitle {
+  @apply mb-8 max-w-lg text-base leading-relaxed text-white/75 md:text-lg;
+}
+
+.hero-cta {
+  @apply flex flex-wrap gap-3;
+}
+
+.hero-button-primary {
+  @apply border-accent bg-accent px-8 py-3 text-base font-bold text-white hover:bg-accent-dark;
+}
+
+.hero-button-secondary {
+  @apply border-white/30 bg-white/10 px-8 py-3 text-base font-bold text-white backdrop-blur-sm hover:bg-white/20;
+}
+
+/* ── Sections ── */
+.home-section {
+  @apply px-6 py-14 md:px-12;
+}
+
+.section-header {
+  @apply mb-10;
+}
+
+.section-title {
+  @apply mb-1 text-2xl font-bold text-primary md:text-3xl;
+}
+
+.section-subtitle {
+  @apply text-sm text-muted md:text-base;
+}
+
+.section-cta {
+  @apply mt-8;
+}
+
+/* ── Categories ── */
+.category-grid {
+  @apply flex flex-wrap justify-center gap-6 p-0 md:gap-10;
+}
+
+.category-card {
+  @apply list-none;
+}
+
+.category-button {
+  @apply flex cursor-pointer flex-col items-center gap-3 border-none bg-transparent p-0 transition-transform hover:-translate-y-1;
+}
+
+.category-img {
+  @apply h-28 w-28 rounded-full border-4 border-white object-cover shadow-card transition-all hover:shadow-card-hover md:h-32 md:w-32;
+}
+
+.category-name {
+  @apply text-sm font-semibold text-primary;
+}
+
+/* ── Products Grid ── */
+.product-grid {
+  @apply flex flex-wrap justify-center gap-5 p-0;
+}
+
+/* ── Trending ── */
+.trending-section {
+  @apply bg-white;
+}
+
+/* ── Trust Badges ── */
+.trust-section {
+  @apply border-t border-gray-100 px-6 py-14 md:px-12;
+}
+
+.trust-grid {
+  @apply mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3;
+}
+
+.trust-card {
+  @apply flex flex-col items-center gap-2 text-center;
+}
+
+.trust-icon {
+  @apply mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 text-accent;
+}
+
+.trust-title {
+  @apply text-base font-semibold text-primary;
+}
+
+.trust-text {
+  @apply text-sm text-muted;
 }
 
 @media (max-width: 768px) {
-  .home .main-card {
-    @apply h-[300px];
+  .hero {
+    @apply h-[400px];
+  }
+
+  .hero-content {
+    @apply px-6 pb-10;
+  }
+
+  .hero-title {
+    @apply text-3xl;
+  }
+
+  .home-section {
+    @apply px-4 py-10;
   }
 }

@@ -5,6 +5,46 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [2.1.1] - 2026-02-08 -- Auth Fixes & Logo
+
+### Fixed
+- "Login with Test Credentials" now works: rewrote flow to use signUp response session directly, avoiding the double signIn race condition and email_not_confirmed error
+- Documented requirement to disable email confirmation in Supabase dashboard setup instructions
+
+### Removed
+- Google sign-in button, "OR" divider, and all related code (signInWithGoogle from auth.js, AuthProvider.jsx, Login.jsx) since the provider was never enabled
+
+### Changed
+- Replaced broken FaShoePrints icon (react-icons) with a custom inline SVG sneaker logo in navigation
+- Added accent color and proper alignment to logo
+
+---
+
+## [2.1.0] - 2026-02-07 -- UI Design Overhaul
+
+### Fixed
+- "Login with Test Credentials" now auto-creates the test user if it doesn't exist in Supabase
+- Google OAuth shows meaningful toast error instead of navigating to a broken Supabase URL
+- DataProvider no longer fires duplicate requests during auth loading (gated behind authLoading)
+- Added explicit GRANT statements to supabase/schema.sql for anon/authenticated roles
+
+### Changed
+- Rebuilt global design system in index.css with button variants, form components, auth layout
+- Redesigned Login page with centered card, button hierarchy, animated reset panel
+- Redesigned Signup page with card layout and side-by-side name fields
+- Redesigned Home page with hero gradient overlay, circular category cards, SVG trust badges
+- Redesigned Product Listing with reusable FilterPanel, mobile drawer, product count header
+- Redesigned Product Detail with breadcrumbs, sale badge, specs grid, tag pills
+- Redesigned Cart with empty state illustration, quantity controls, order summary sidebar
+- Improved Checkout with better address cards and success page layout
+- Redesigned Wishlist with empty state illustration and proper container
+- Migrated Profile.css, Orders.css, ReviewSection.css from hardcoded hex to Tailwind theme tokens
+- Added active link accent color to navigation
+- Widened product cards and added consistent gap-5 across all grids
+- Added off-white background to app shell for card contrast
+
+---
+
 ## [2.0.0] - 2026-02-07 -- Supabase Backend + New Features
 
 ### Added

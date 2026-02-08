@@ -1,15 +1,11 @@
 .App {
-  position: relative;
-  min-height: 100vh;
-  color: theme('colors.primary.DEFAULT');
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  @apply relative flex min-h-screen flex-col bg-secondary font-sans text-primary;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+  @apply list-none p-0;
 }
 
 .div-margin {
-  margin-left: 1rem;
+  @apply ml-4;
 }

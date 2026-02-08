@@ -46,114 +46,125 @@ export const Signup = () => {
 
   if (isAuthenticated) {
     return (
-      <div className="signup-container">
-        <p className="signup-status">You are already signed in.</p>
+      <div className="auth-container">
+        <div className="form-card">
+          <p className="text-center text-muted">You are already signed in.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="signup-container">
-      <form className="signup" onSubmit={handleSignup}>
-        <h1>Sign Up</h1>
+    <div className="auth-container">
+      <form className="form-card" onSubmit={handleSignup}>
+        <h1>Create Account</h1>
 
-        <div className="input-group">
-          <label htmlFor="signup-firstname">First Name</label>
-          <input
-            id="signup-firstname"
-            type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            autoComplete="given-name"
-            required
-          />
-        </div>
+        <div className="signup-fields">
+          <div className="signup-name-row">
+            <div className="input-group">
+              <label htmlFor="signup-firstname">First Name</label>
+              <input
+                id="signup-firstname"
+                className="input-field"
+                type="text"
+                placeholder="John"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                autoComplete="given-name"
+                required
+              />
+            </div>
 
-        <div className="input-group">
-          <label htmlFor="signup-lastname">Last Name</label>
-          <input
-            id="signup-lastname"
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            autoComplete="family-name"
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="signup-email">Email</label>
-          <input
-            id="signup-email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="signup-password">Password</label>
-          <div className="password-wrapper">
-            <input
-              id="signup-password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Password (min 6 characters)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-              minLength={6}
-            />
-            <button
-              type="button"
-              className="toggle-password"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
+            <div className="input-group">
+              <label htmlFor="signup-lastname">Last Name</label>
+              <input
+                id="signup-lastname"
+                className="input-field"
+                type="text"
+                placeholder="Doe"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                autoComplete="family-name"
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="input-group">
-          <label htmlFor="signup-confirm-password">Confirm Password</label>
-          <div className="password-wrapper">
+          <div className="input-group">
+            <label htmlFor="signup-email">Email</label>
             <input
-              id="signup-confirm-password"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              autoComplete="new-password"
+              id="signup-email"
+              className="input-field"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               required
             />
-            <button
-              type="button"
-              className="toggle-password"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              aria-label={
-                showConfirmPassword ? "Hide password" : "Show password"
-              }
-            >
-              {showConfirmPassword ? "Hide" : "Show"}
-            </button>
           </div>
+
+          <div className="input-group">
+            <label htmlFor="signup-password">Password</label>
+            <div className="password-wrapper">
+              <input
+                id="signup-password"
+                className="input-field"
+                type={showPassword ? "text" : "password"}
+                placeholder="Min 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="signup-confirm-password">Confirm Password</label>
+            <div className="password-wrapper">
+              <input
+                id="signup-confirm-password"
+                className="input-field"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Re-enter your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                aria-label={
+                  showConfirmPassword ? "Hide password" : "Show password"
+                }
+              >
+                {showConfirmPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          <button
+            className="button signup-button"
+            type="submit"
+            disabled={submitting}
+          >
+            {submitting ? "Creating account..." : "Create Account"}
+          </button>
         </div>
 
-        <button
-          className="button signup-button"
-          type="submit"
-          disabled={submitting}
-        >
-          {submitting ? "Creating account..." : "Sign Up"}
-        </button>
-
-        <p className="login-link">
+        <p className="form-footer">
           Already have an account? <Link to="/login">Log In</Link>
         </p>
       </form>

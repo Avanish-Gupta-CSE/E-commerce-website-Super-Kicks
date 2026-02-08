@@ -16,43 +16,46 @@ export const Home = () => {
   return (
     <div className="home">
       {/* Hero Section */}
-      <div className="main-card">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-8 text-left text-white">
-          <h1 className="mb-2 text-5xl font-bold tracking-tight md:text-6xl">
-            Step Into Style
-          </h1>
-          <p className="mb-6 max-w-xl text-lg text-white/80">
-            Discover the latest collections from Nike, Adidas, Puma, and more.
-            Premium sneakers for every occasion.
+      <section className="hero">
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <span className="hero-badge">New Collection 2026</span>
+          <h1 className="hero-title">Step Into Style</h1>
+          <p className="hero-subtitle">
+            Discover premium sneakers from Nike, Adidas, Puma, and more.
+            Curated for every occasion.
           </p>
-          <Link
-            to="/products"
-            className="inline-block rounded-lg bg-accent px-8 py-3 text-lg font-semibold text-white transition-all hover:bg-accent-dark hover:shadow-lg"
-          >
-            Shop Now
-          </Link>
+          <div className="hero-cta">
+            <Link to="/products" className="button hero-button-primary">
+              Shop Now
+            </Link>
+            <Link to="/products" className="button-secondary hero-button-secondary">
+              Browse All
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Categories Section */}
-      <section className="px-4 py-12">
-        <h2 className="mb-2 text-3xl font-bold">Shop by Category</h2>
-        <p className="mb-8 text-muted">Find your perfect pair</p>
-        <ul className="container">
+      <section className="home-section">
+        <div className="section-header">
+          <h2 className="section-title">Shop by Brand</h2>
+          <p className="section-subtitle">Find your perfect pair from top brands</p>
+        </div>
+        <ul className="category-grid">
           {categories.map(({ categoryName, _id, image }) => (
-            <li className="card" key={_id}>
-              <img
-                className="category-img"
-                src={image}
-                alt={`${categoryName} shoes category`}
-                loading="lazy"
-              />
+            <li className="category-card" key={_id}>
               <button
-                className="mt-2 rounded-full bg-primary px-6 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-light"
+                className="category-button"
                 onClick={() => singleCategoryFilterHandler(categoryName)}
               >
-                {categoryName}
+                <img
+                  className="category-img"
+                  src={image}
+                  alt={`${categoryName} shoes category`}
+                  loading="lazy"
+                />
+                <span className="category-name">{categoryName}</span>
               </button>
             </li>
           ))}
@@ -60,38 +63,53 @@ export const Home = () => {
       </section>
 
       {/* Trending Section */}
-      <section className="bg-secondary px-4 py-12">
-        <h2 className="mb-2 text-3xl font-bold">Trending Now</h2>
-        <p className="mb-8 text-muted">Most popular picks this week</p>
-        <ul className="container">
+      <section className="home-section trending-section">
+        <div className="section-header">
+          <h2 className="section-title">Trending Now</h2>
+          <p className="section-subtitle">Most popular picks this week</p>
+        </div>
+        <ul className="product-grid">
           {trendingProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </ul>
+        <div className="section-cta">
+          <Link to="/products" className="button-secondary">
+            View All Products
+          </Link>
+        </div>
       </section>
 
-      {/* Features Section */}
-      <section className="grid grid-cols-1 gap-8 px-8 py-16 md:grid-cols-3">
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-2xl">
-            🚚
+      {/* Trust Badges */}
+      <section className="trust-section">
+        <div className="trust-grid">
+          <div className="trust-card">
+            <div className="trust-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+            </div>
+            <h3 className="trust-title">Free Shipping</h3>
+            <p className="trust-text">On all orders over $100</p>
           </div>
-          <h3 className="mb-2 text-lg font-semibold">Free Shipping</h3>
-          <p className="text-sm text-muted">On all orders over $100</p>
-        </div>
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-2xl">
-            🔄
+          <div className="trust-card">
+            <div className="trust-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+            </div>
+            <h3 className="trust-title">Easy Returns</h3>
+            <p className="trust-text">30-day hassle-free returns</p>
           </div>
-          <h3 className="mb-2 text-lg font-semibold">Easy Returns</h3>
-          <p className="text-sm text-muted">30-day hassle-free returns</p>
-        </div>
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-2xl">
-            ✅
+          <div className="trust-card">
+            <div className="trust-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
+              </svg>
+            </div>
+            <h3 className="trust-title">100% Authentic</h3>
+            <p className="trust-text">Genuine products guaranteed</p>
           </div>
-          <h3 className="mb-2 text-lg font-semibold">100% Authentic</h3>
-          <p className="text-sm text-muted">Genuine products guaranteed</p>
         </div>
       </section>
 

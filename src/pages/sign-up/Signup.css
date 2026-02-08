@@ -1,11 +1,17 @@
-.signup p {
-  @apply m-0;
+.signup-fields {
+  @apply flex flex-col gap-4;
 }
 
-.signup {
-  @apply mx-auto max-w-md px-4 pb-28 pt-8;
+.signup-name-row {
+  @apply grid grid-cols-2 gap-4;
 }
 
-.signup .signup-button {
-  @apply my-4 block w-full;
+.signup-button {
+  @apply mt-2 block w-full;
+}
+
+@media (max-width: 480px) {
+  .signup-name-row {
+    @apply grid-cols-1;
+  }
 }

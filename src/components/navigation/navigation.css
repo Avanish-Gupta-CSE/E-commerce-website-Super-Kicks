@@ -1,5 +1,13 @@
 .nav-bar {
-  @apply sticky top-0 z-10 flex items-center justify-between bg-white/95 px-4 py-3 shadow-nav backdrop-blur-sm;
+  @apply sticky top-0 z-10 flex items-center justify-between bg-white/95 px-6 py-3 shadow-nav backdrop-blur-sm;
+}
+
+.logo-link {
+  @apply flex items-center gap-2;
+}
+
+.logo-icon {
+  @apply text-accent;
 }
 
 .mobile {
@@ -7,11 +15,11 @@
 }
 
 .search-bar {
-  @apply w-1/3 rounded-lg border border-gray-200 bg-secondary px-4 py-2 text-sm transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+  @apply w-1/3 rounded-lg border border-gray-200 bg-secondary px-4 py-2.5 text-sm transition-all focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
 }
 
 .links {
-  @apply flex w-1/4 items-center justify-between gap-4 text-base;
+  @apply flex items-center gap-5 text-base;
 }
 
 .links .icon {
@@ -22,13 +30,21 @@
   @apply absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-2xs font-bold text-white;
 }
 
+.links a.active {
+  @apply text-accent;
+}
+
 @media (max-width: 768px) {
+  .nav-bar {
+    @apply px-4;
+  }
+
   .search-bar {
     @apply w-full;
   }
 
   .links {
-    @apply w-full;
+    @apply w-full justify-around;
   }
 
   .desktop {

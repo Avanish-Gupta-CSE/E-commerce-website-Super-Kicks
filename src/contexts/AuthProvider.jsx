@@ -22,10 +22,17 @@ export const AuthProvider = ({ children }) => {
 
   // Listen for auth state changes
   useEffect(() => {
-    authApi.getSession().then((s) => {
-      setSession(s);
-      setLoading(false);
-    });
+    authApi
+      .getSession()
+      .then((s) => {
+        setSession(s);
+      })
+      .catch((err) => {
+        console.error("[Auth] Session fetch failed:", err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
     const subscription = authApi.onAuthChange((s) => {
       setSession(s);
@@ -77,15 +84,6 @@ export const AuthProvider = ({ children }) => {
     [navigate]
   );
 
-  const signInWithGoogle = useCallback(async () => {
-    try {
-      await authApi.signInWithGoogle();
-    } catch (error) {
-      console.error("[Auth] Google sign in failed:", error.message);
-      toast.error("Google sign in failed");
-    }
-  }, []);
-
   const signOut = useCallback(async () => {
     try {
       await authApi.signOut();
@@ -134,7 +132,6 @@ export const AuthProvider = ({ children }) => {
       loading,
       signIn,
       signUp,
-      signInWithGoogle,
       signOut,
       updateProfile,
       resetPassword,
@@ -147,7 +144,6 @@ export const AuthProvider = ({ children }) => {
       loading,
       signIn,
       signUp,
-      signInWithGoogle,
       signOut,
       updateProfile,
       resetPassword,

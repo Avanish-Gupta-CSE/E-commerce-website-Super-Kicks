@@ -9,7 +9,7 @@
 **Name**: Super Kicks -- E-commerce Sneaker Store
 **Original creation**: ~2022 (4 years ago)
 **Repo**: `E-commerce-website-Super-Kicks`
-**Status**: Active revamp -- Phases 0-9 foundation + Phase 2 (Supabase backend) + Phase 5 (new features) complete
+**Status**: Active revamp -- Phases 0-9 foundation + Phase 2 (Supabase backend) + Phase 5 (new features) + Phase 10 (UI design overhaul) complete
 
 ### Current Tech Stack
 
@@ -155,7 +155,7 @@
 - Session management via Supabase (no more localStorage tokens)
 - Input validation on forms
 
-### Phase 4: UI/UX Overhaul
+### Phase 4: UI/UX Overhaul (Initial)
 - Modern hero section, 404 page, Error Boundary
 - Updated navigation (auth-aware, profile link)
 - Modern Login/Signup pages (Google OAuth, password reset)
@@ -179,6 +179,59 @@
 ### Phase 9: Testing
 - Vitest + RTL with 7 passing tests
 
+### Phase 10: UI Design Overhaul (Amazon/Adobe Principles)
+
+**Bug Fixes**
+- Fixed "Login with Test Credentials" -- auto-creates test user in Supabase if it doesn't exist
+- Fixed Google OAuth -- added `skipBrowserRedirect` with pre-validation to show meaningful error when provider is not enabled in Supabase dashboard
+- Fixed DataProvider duplicate fetches -- gated behind `authLoading` flag
+- Added explicit `GRANT` statements to `supabase/schema.sql` for anon/authenticated roles
+
+**Global Design System** (`src/index.css`)
+- Added button variants: `.button-secondary`, `.button-google`, `.button-text`, `.button-danger`
+- Added form components: `.input-group`, `.password-wrapper`, `.toggle-password`
+- Added auth layout: `.auth-container`, `.form-card`, `.form-divider`, `.form-footer`
+- Refined `.button` and `.input-field` with better sizing, focus rings, disabled states
+
+**Login Page** -- Centered card layout, proper form styling, button hierarchy (primary/secondary/google), animated password reset panel, "or" divider
+
+**Signup Page** -- Card layout, side-by-side name fields, consistent input styling
+
+**Home Page** -- Redesigned hero with gradient overlay, badge, dual CTAs; circular category cards with hover lift; trending section on white bg; SVG trust badges replacing emoji
+
+**Product Listing** -- Extracted reusable FilterPanel component; sidebar filters with range sliders, checkboxes, radio buttons; mobile filter drawer (slide-up overlay); product count in header; empty results message
+
+**Product Detail** -- Breadcrumb navigation; sale badge on image; structured specs grid (color, size, brand); separated price/discount display; tag pills for category/gender/trending; responsive layout
+
+**Cart Page** -- Empty state with SVG icon and CTA; redesigned cart items with image, quantity controls, remove button; order summary sidebar with divider and total
+
+**Checkout Page** -- Improved address cards with radio selection; order summary styling; success page with centered layout and action buttons
+
+**Wishlist Page** -- Empty state with heart SVG and CTA; proper page container with title and item count
+
+**Profile Page** -- Migrated from hardcoded hex to Tailwind theme tokens
+
+**Orders Pages** -- Migrated from hardcoded hex to Tailwind theme tokens; card hover effects
+
+**Reviews Section** -- Migrated from hardcoded hex to Tailwind theme tokens
+
+**Navigation** -- Active link accent color; improved spacing; mobile layout with justify-around
+
+**Product Cards** -- Wider cards (w-60); better spacing within cards; gap-5 on all grids
+
+**App Shell** -- Off-white background (`bg-secondary`) for card contrast; flex column layout for sticky footer
+
+### Phase 10b: Auth Fixes & Logo
+
+**Test Credentials Login** -- Fixed `email_not_confirmed` error by:
+1. Requiring "Confirm email" to be disabled in Supabase dashboard (documented in setup instructions)
+2. Rewriting `handleTestLogin` to use `signUp` response session directly instead of double `signIn` call
+3. Changed test email to `testuser@superkicks.com`
+
+**Google OAuth Removed** -- Removed `signInWithGoogle` from Login.jsx, AuthProvider.jsx, and auth.js since provider is not enabled in Supabase. Removed the "OR" divider and Google button from login form.
+
+**Logo Fixed** -- Replaced broken `FaShoePrints` icon (react-icons) with a custom inline SVG sneaker icon. Added accent color styling and proper alignment.
+
 ---
 
 ## Pending / Next Steps
@@ -199,14 +252,15 @@
 
 ### Setup Instructions for Supabase
 1. Create a Supabase project at https://supabase.com
-2. Run `supabase/schema.sql` in the SQL editor
+2. Run `supabase/schema.sql` in the SQL editor (includes schema grants)
 3. Run `supabase/seed.sql` in the SQL editor
 4. Copy project URL and anon key into `.env.local`:
    ```
    VITE_SUPABASE_URL=https://your-project.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-key
    ```
-5. Enable Google OAuth in Supabase Auth settings (optional)
+5. **Disable email confirmation**: Go to Authentication > Providers > Email > toggle OFF "Confirm email"
+6. "Login with Test Credentials" auto-creates a test user on first use
 
 ---
 

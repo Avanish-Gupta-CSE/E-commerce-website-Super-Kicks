@@ -1,5 +1,5 @@
 .product-card {
-  @apply w-56 rounded-xl bg-white p-4 text-left shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
+  @apply w-60 rounded-xl bg-white p-4 text-left shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
 }
 
 .product-card img {
@@ -11,7 +11,7 @@
 }
 
 .product-card h3 {
-  @apply m-0 h-10 text-sm font-semibold leading-tight;
+  @apply m-0 mt-2 h-10 text-sm font-semibold leading-tight text-primary;
 }
 
 .product-card p {
@@ -23,5 +23,5 @@
 }
 
 .product-card .flex-container {
-  @apply flex items-center justify-between;
+  @apply mb-2 flex items-center justify-between;
 }

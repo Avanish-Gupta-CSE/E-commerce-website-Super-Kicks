@@ -7,6 +7,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
+import { useAuth } from "./AuthProvider";
 import * as productsApi from "../lib/api/products";
 import * as categoriesApi from "../lib/api/categories";
 
@@ -69,6 +70,7 @@ const INITIAL_STATE = {
 
 export const DataProvider = ({ children }) => {
   const navigate = useNavigate();
+  const { loading: authLoading } = useAuth();
   const [state, dispatch] = useReducer(reducerFunction, INITIAL_STATE);
 
   const fetchProducts = useCallback(async () => {
@@ -94,9 +96,11 @@ export const DataProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, [fetchProducts, fetchCategories]);
+    if (!authLoading) {
+      fetchProducts();
+      fetchCategories();
+    }
+  }, [authLoading, fetchProducts, fetchCategories]);
 
   const searchHandler = useCallback(
     (e) => {

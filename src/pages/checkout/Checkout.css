@@ -1,21 +1,37 @@
 .checkout {
-  @apply mx-auto flex max-w-5xl justify-around gap-8 px-4 pb-20;
+  @apply mx-auto flex max-w-5xl gap-8 px-6 py-8;
+}
+
+.checkout .address {
+  @apply flex-1;
+}
+
+.checkout .address h1 {
+  @apply mb-4 text-2xl font-bold text-primary;
 }
 
 .checkout .address-container {
-  @apply mb-4 flex items-start justify-between rounded-lg border border-gray-200 p-4 transition-all hover:border-accent/30 hover:shadow-card;
+  @apply mb-3 flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-all hover:border-accent/30 hover:shadow-card;
+}
+
+.checkout .address-container input[type="radio"] {
+  @apply mt-1 h-4 w-4 accent-accent;
 }
 
 .checkout .address-card {
-  @apply ml-4 mr-auto;
+  @apply flex-1;
+}
+
+.checkout .address-card h2 {
+  @apply m-0 text-base font-semibold;
 }
 
 .checkout .cross-button {
-  @apply contents;
+  @apply flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm text-gray-500 transition-all hover:bg-danger hover:text-white;
 }
 
 .checkout p {
-  @apply m-0;
+  @apply m-0 text-sm text-gray-600;
 }
 
 .checkout h3 {
@@ -23,52 +39,61 @@
 }
 
 .checkout .input-address-container {
-  @apply mt-8 w-full max-w-md;
+  @apply mt-6 flex w-full max-w-md flex-col gap-3;
 }
 
 .checkout .input-address-container .button {
-  @apply mr-4 mt-4;
+  @apply mr-3 mt-2;
 }
 
 .checkout .bill {
-  @apply rounded-xl bg-white p-6 text-base shadow-card;
+  @apply h-fit w-80 flex-shrink-0 rounded-xl bg-white p-6 shadow-card;
+}
+
+.checkout .bill h1 {
+  @apply mb-4 text-lg font-bold text-primary;
 }
 
 .small-heading {
-  @apply mb-2 inline-block w-40;
+  @apply mb-1 inline-block w-40 text-sm font-medium text-gray-600;
 }
 
 .checkout .bill .button {
-  @apply mt-4 w-full;
+  @apply mt-5 w-full;
 }
 
+/* ── Order Success ── */
 .summary-container {
-  @apply mx-auto w-full max-w-lg px-4 pb-24;
+  @apply mx-auto max-w-lg px-4 py-8;
 }
 
 .summary-container h1 {
-  @apply mt-0;
+  @apply mb-6 text-center text-2xl font-bold text-primary;
 }
 
 .summary {
-  @apply mb-8 rounded-xl p-6 shadow-card;
+  @apply mb-6 rounded-xl bg-white p-6 shadow-card;
 }
 
 .summary .flex-container {
-  @apply flex justify-between;
+  @apply flex justify-between py-1.5 text-sm;
 }
 
-.checkout .address {
-  @apply min-w-[20rem];
+.summary-actions {
+  @apply flex justify-center gap-3;
 }
 
 @media (max-width: 768px) {
   .checkout {
-    @apply flex-col;
+    @apply flex-col px-4;
   }
 
   .checkout .address {
     @apply min-w-0;
+  }
+
+  .checkout .bill {
+    @apply w-full;
   }
 
   .summary-container {

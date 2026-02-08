@@ -9,26 +9,29 @@ import { CartProvider } from "./contexts/CartProvider";
 import { WishlistProvider } from "./contexts/WishlistProvider";
 import AddressProvider from "./contexts/AddressProvider";
 import { OrderProvider } from "./contexts/OrderProvider";
+import ErrorBoundary from "./components/ErrorBoundary";
 import ScrollToTop from "./helpers/ScrollToTop";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ScrollToTop />
-      <AuthProvider>
-        <DataProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <AddressProvider>
-                <OrderProvider>
-                  <App />
-                </OrderProvider>
-              </AddressProvider>
-            </WishlistProvider>
-          </CartProvider>
-        </DataProvider>
-      </AuthProvider>
+      <ErrorBoundary>
+        <ScrollToTop />
+        <AuthProvider>
+          <DataProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <AddressProvider>
+                  <OrderProvider>
+                    <App />
+                  </OrderProvider>
+                </AddressProvider>
+              </WishlistProvider>
+            </CartProvider>
+          </DataProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </BrowserRouter>
   </React.StrictMode>
 );
